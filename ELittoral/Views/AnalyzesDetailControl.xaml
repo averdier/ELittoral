@@ -1,0 +1,209 @@
+<UserControl
+    x:Class="ELittoral.Views.AnalyzesDetailControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:ELittoral.Models"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:valueConverters="using:ELittoral.ValueConverters"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+
+        <!--WideGridViewItemTemplate-->
+        <DataTemplate x:Key="WideGridViewItemTemplate" x:DataType="model:AnalysisResultModel">
+
+            <Grid Height="200" Width="300">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--Result Image-->
+                <toolkit:ImageEx 
+                    Source="{x:Bind Image}"
+                    Stretch="UniformToFill"
+                    IsCacheEnabled="False"
+                    PlaceholderSource="/Assets/600x400.png"
+                    PlaceholderStretch="UniformToFill"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
+                <!--/.Result Image-->
+
+                <!--Result-->
+                <Grid Grid.Row="1"  Background="{StaticResource Brush-Grey-01}">
+                    <TextBlock Text="{x:Bind Result}" Margin="10"/>
+                </Grid>
+                <!--/.Result-->
+
+            </Grid>
+
+        </DataTemplate>
+        <!--WideGridViewItemTemplate-->
+
+        <!--NarrowGridViewItemTemplate-->
+        <DataTemplate x:Key="NarrowGridViewItemTemplate" x:DataType="model:AnalysisResultModel">
+
+            <Grid Height="200" Width="Auto">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--Result Image-->
+                <toolkit:ImageEx 
+                    Source="{x:Bind Image}"
+                    Stretch="UniformToFill"
+                    IsCacheEnabled="False"
+                    PlaceholderSource="/Assets/600x400.png"
+                    PlaceholderStretch="UniformToFill"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
+                <!--/.Result Image-->
+
+                <!--Result-->
+                <Grid Grid.Row="1"  Background="{StaticResource Brush-Grey-01}">
+                    <TextBlock Text="{x:Bind Result}" Margin="10"/>
+                </Grid>
+                <!--/.Result-->
+
+            </Grid>
+
+        </DataTemplate>
+        <!--NarrowGridViewItemTemplate-->
+
+        <valueConverters:StateToSolidColorBrush x:Key="StateToSolidColorBrush" />
+        <valueConverters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePage-->
+        <TextBlock
+            x:Name="TitlePage"
+            Text="{x:Bind MasterMenuItem.CreatedAt, Mode=OneWay}"
+            FontSize="28" FontWeight="SemiLight" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" VerticalAlignment="Center"
+            Margin="0,0,12,7"/>
+        <!--/.TitlePage-->
+
+        <!--Content-->
+        <ScrollViewer
+            Grid.Row="1"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            ScrollViewer.VerticalScrollMode="Auto">
+
+            <!--The SystemControlPageBackgroundChromeLowBrush background represents where you should place your detail content.-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--Informations-->
+                <StackPanel Orientation="Horizontal">
+
+                    <toolkit:HeaderedTextBlock 
+                        x:Uid="AnalyzesDetailControl_CreatedAt"
+                        Header="HeaderedTextBlock"
+                        Text="{x:Bind MasterMenuItem.CreatedAt, Mode=OneWay}"
+                        Orientation="Vertical" />
+
+                    <toolkit:HeaderedTextBlock 
+                        x:Uid="AnalyzesDetailControl_Status"
+                        Header="HeaderedTextBlock"
+                        Text="{x:Bind MasterMenuItem.State, Mode=OneWay}"
+                        Orientation="Vertical" 
+                        Margin="20,0,0,0"/>
+
+                    <toolkit:HeaderedTextBlock 
+                        x:Uid="AnalyzesDetailControl_Progression"
+                        Header="HeaderedTextBlock"
+                        Text="{x:Bind MasterMenuItem.Progression, Mode=OneWay}"
+                        Orientation="Vertical" 
+                        Margin="20,0,0,0"/>
+
+                    <toolkit:HeaderedTextBlock 
+                        x:Uid="AnalyzesDetailControl_Result"
+                        Header="HeaderedTextBlock"
+                        Text="{x:Bind MasterMenuItem.Result, Mode=OneWay}"
+                        Orientation="Vertical" 
+                        Margin="20,0,0,0"/>
+
+                </StackPanel>
+                <!--/.Informations-->
+
+                <!--Error message-->
+                <toolkit:HeaderedTextBlock 
+                    x:Uid="AnalyzesDetailControl_Message"
+                    Header="HeaderedTextBlock"
+                    Grid.Row="1"
+                    Visibility="{x:Bind MasterMenuItem.Message, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
+                    Text="{x:Bind MasterMenuItem.Message, Mode=OneWay}"
+                    Orientation="Vertical" />
+                <!--/.Error mesage-->
+                
+                <!--Results-->
+                <Grid Grid.Row="2"
+                      Margin="0,20,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock x:Uid="AnalyzesDetailControl_Results"
+                               Text="TextBlock"
+                               Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,10" />
+
+                    <GridView 
+                        x:Name="GridViewResults"
+                        Grid.Row="1"
+                        ItemTemplate="{StaticResource WideGridViewItemTemplate}"
+                        ItemsSource="{x:Bind MasterMenuItem.Results, Mode=OneWay}"
+                        IsItemClickEnabled="True">
+                        <i:Interaction.Behaviors>
+                            <ic:EventTriggerBehavior EventName="ItemClick">
+                                <ic:InvokeCommandAction Command="{x:Bind ItemClickCommand}" />
+                            </ic:EventTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </GridView>
+                </Grid>
+                <!--/.Results-->
+            </Grid>
+        </ScrollViewer>
+        <!--/.Content-->
+        
+        <!--  Adaptive triggers  -->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="GridViewResults.ItemTemplate" Value="{StaticResource WideGridViewItemTemplate}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TitlePage.Margin" Value="48,0,12,7"/>
+                        <Setter Target="GridViewResults.ItemTemplate" Value="{StaticResource NarrowGridViewItemTemplate}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</UserControl>
