@@ -26,7 +26,7 @@
 
                 <!--Result Image-->
                 <toolkit:ImageEx 
-                    Source="{x:Bind Image}"
+                    Source="{x:Bind Content}"
                     Stretch="UniformToFill"
                     IsCacheEnabled="False"
                     PlaceholderSource="/Assets/600x400.png"
@@ -57,7 +57,7 @@
 
                 <!--Result Image-->
                 <toolkit:ImageEx 
-                    Source="{x:Bind Image}"
+                    Source="{x:Bind Content}"
                     Stretch="UniformToFill"
                     IsCacheEnabled="False"
                     PlaceholderSource="/Assets/600x400.png"

@@ -16,6 +16,9 @@ namespace ELittoral.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            ViewModel.LoadData();
+            ViewModel.InstantiateInstructionsSlideShowTimer();
+
             this.DataContext = ViewModel;
         }
     }

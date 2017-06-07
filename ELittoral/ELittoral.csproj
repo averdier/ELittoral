@@ -114,6 +114,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activation\ActivationHandler.cs" />
+    <Compile Include="Controls\ContentImageControl.xaml.cs">
+      <DependentUpon>ContentImageControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ThumbnailImageControl.xaml.cs">
+      <DependentUpon>ThumbnailImageControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\BoolExtensions.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\Observable.cs" />
@@ -122,8 +128,10 @@
     <Compile Include="Models\AnalysisModel.cs" />
     <Compile Include="Models\AnalysisResultModel.cs" />
     <Compile Include="Models\FlightplanModel.cs" />
+    <Compile Include="Models\ImageModel.cs" />
     <Compile Include="Models\InstructionItem.cs" />
     <Compile Include="Models\ReconModel.cs" />
+    <Compile Include="Models\ReconRessourceModel.cs" />
     <Compile Include="Models\SampleModel.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultLaunchActivationHandler.cs" />
@@ -134,6 +142,7 @@
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="ValueConverters\BooleanToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\NullToVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\ObjectToImageModelConverter.cs" />
     <Compile Include="ValueConverters\SelectedLegendItemToColorConverter.cs" />
     <Compile Include="ValueConverters\StateToSolidColorBrush.cs" />
     <Compile Include="ViewModels\AnalysisAddViewModel.cs" />
@@ -143,6 +152,7 @@
     <Compile Include="ViewModels\ApiWebViewModel.cs" />
     <Compile Include="ViewModels\FlightplansViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\ImageViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ShellNavigationItem.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
@@ -170,6 +180,9 @@
     </Compile>
     <Compile Include="Views\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ImagePage.xaml.cs">
+      <DependentUpon>ImagePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -229,6 +242,14 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\ContentImageControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ThumbnailImageControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -265,6 +286,10 @@
     <Page Include="Views\HomePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ImagePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>

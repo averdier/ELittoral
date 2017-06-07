@@ -1,9 +1,7 @@
 ﻿using ELittoral.Models;
 using ELittoral.ViewModels;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -24,11 +22,11 @@ namespace ELittoral.Views
     /// <summary>
     /// Une page vide peut être utilisée seule ou constituer une page de destination au sein d'un frame.
     /// </summary>
-    public sealed partial class AnalysisResultPage : Page
+    public sealed partial class ImagePage : Page
     {
-        public AnalysisResultViewModel ViewModel { get; } = new AnalysisResultViewModel();
+        public ImageViewModel ViewModel { get; } = new ImageViewModel();
 
-        public AnalysisResultPage()
+        public ImagePage()
         {
             this.InitializeComponent();
         }
@@ -36,17 +34,7 @@ namespace ELittoral.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            ViewModel.LoadData(e.Parameter as AnalysisResultModel);
-            
-        }
-
-        private void FlipViewImageItemTemplateGrid_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            var im = ((Grid)sender).DataContext as ImageModel;
-            if (im != null)
-            {
-                ViewModel.OnImageTapped(im);
-            }
+            ViewModel.Item = e.Parameter as ImageModel;
         }
     }
 }

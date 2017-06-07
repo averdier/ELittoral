@@ -7,6 +7,7 @@ using ELittoral.Services;
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using System.Diagnostics;
 
 namespace ELittoral.ViewModels
 {
@@ -27,6 +28,11 @@ namespace ELittoral.ViewModels
         public AnalyzesDetailViewModel()
         {
             StateChangedCommand = new RelayCommand<VisualStateChangedEventArgs>(OnStateChanged);
+        }
+
+        public void LoadData(AnalysisModel item)
+        {
+            Item = item;
         }
         
         private void OnStateChanged(VisualStateChangedEventArgs args)

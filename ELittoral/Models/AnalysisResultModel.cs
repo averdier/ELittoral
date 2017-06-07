@@ -6,10 +6,17 @@ using System.Threading.Tasks;
 
 namespace ELittoral.Models
 {
-    public class AnalysisResultModel
+    public class AnalysisResultModel : ImageModel
     {
+        public int Id { get; set; }
+
+        public AnalysisModel Analysis { get; set; }
+
         public string Result { get; set; }
 
-        public Uri Image { get; set; }
+        public ReconRessourceModel MinuendRessource { get; set; }
+
+        public ReconRessourceModel SubtrahendRessource { get; set; }
+
     }
 }

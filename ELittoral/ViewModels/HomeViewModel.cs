@@ -3,12 +3,21 @@ using System;
 using ELittoral.Helpers;
 using ELittoral.Models;
 using System.Collections.Generic;
+using Windows.UI.Xaml;
 
 namespace ELittoral.ViewModels
 {
     public class HomeViewModel : Observable
     {
         private InstructionItem _selectedInstructionItem;
+
+        private const int InstructionsScrollTimerInterval = 7;
+
+        private DispatcherTimer _instructionsScrollTimer;
+        public DispatcherTimer InstructionScrollTimer
+        {
+            get { return _instructionsScrollTimer; }
+        }
 
         /// <summary>
         /// The instructional items.
@@ -17,7 +26,17 @@ namespace ELittoral.ViewModels
 
         public HomeViewModel()
         {
+            
+        }
+
+        public void LoadData()
+        {
             InitializeInstructionItems();
+            OnPropertyChanged(nameof(InstructionItems));
+            if (InstructionItems.Count > 0)
+            {
+                SelectedInstructionItem = InstructionItems[0];
+            }
         }
 
         /// <summary>
@@ -32,6 +51,12 @@ namespace ELittoral.ViewModels
                 {
                     _selectedInstructionItem = value;
                     OnPropertyChanged(nameof(SelectedInstructionItem));
+
+                    if (_instructionsScrollTimer != null)
+                    {
+                        _instructionsScrollTimer.Stop();
+                        _instructionsScrollTimer.Start();
+                    }
                 }
             }
         }
@@ -70,6 +95,22 @@ namespace ELittoral.ViewModels
                 "Remerciements",
                 "Praesent non leo vitae nisl consequat mollis sed a dui. Nulla consectetur erat ac elit commodo dictum. Phasellus eu risus a lectus dignissim ullamcorper id nec quam. Maecenas tellus orci, tempor non purus sodales, aliquet accumsan velit. Vivamus scelerisque sapien sed fermentum euismod. Mauris volutpat dui eros, ac consequat magna accumsan eget. Duis faucibus sapien at justo tincidunt varius.", 
                 new Uri("ms-appx:///Assets/Home/remerciements.png")));
+        }
+
+        public void InstantiateInstructionsSlideShowTimer()
+        {
+            if (InstructionItems != null && InstructionItems.Count > 0)
+            {
+                _instructionsScrollTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(InstructionsScrollTimerInterval) };
+
+                _instructionsScrollTimer.Tick += (s, e) =>
+                {
+                    var selectedIndex = InstructionItems.IndexOf(SelectedInstructionItem);
+                    selectedIndex = (selectedIndex + 1) % InstructionItems.Count;
+
+                    SelectedInstructionItem = InstructionItems[selectedIndex];
+                };
+            }
         }
     }
 }

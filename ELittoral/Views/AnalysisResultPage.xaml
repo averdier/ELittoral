@@ -3,9 +3,48 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ELittoral.Views"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controls="using:ELittoral.Controls"
+    xmlns:models="using:ELittoral.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <!--FlipViewImageItemTemplate-->
+        <DataTemplate x:Key="FlipViewImageItemTemplate"
+                      x:DataType="models:ImageModel">
+            <Grid IsTapEnabled="True"
+                  Tapped="FlipViewImageItemTemplateGrid_Tapped">
+                <toolkit:ImageEx 
+                    Source="{x:Bind Thumbnail}"
+                    Stretch="UniformToFill"
+                    IsCacheEnabled="False"
+                    PlaceholderSource="/Assets/600x400.png"
+                    PlaceholderStretch="UniformToFill"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
+
+                <Grid>
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#CC000000" Offset="1" />
+                            <GradientStop Offset="0.647" />
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                </Grid>
+
+                <TextBlock Text="{x:Bind CreatedAt}"
+                   VerticalAlignment="Bottom"
+                   Margin="20"
+                   Foreground="White" />
+            </Grid>
+        </DataTemplate>
+        <!--/.FlipViewImageItemTemplate-->
+        
+    </Page.Resources>
 
     <Grid x:Name="ContentArea"
         Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
@@ -14,22 +53,80 @@
         <Grid.RowDefinitions>
             <RowDefinition x:Name="TitleRow" Height="48"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock
             x:Name="TitlePage"
-            Text="Result"
+            Text="{x:Bind ViewModel.TitlePage, Mode=OneWay}"
             FontSize="28" FontWeight="SemiLight" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" VerticalAlignment="Center"
             Margin="0,0,12,7"/>
 
-        <Grid 
-            Grid.Row="1" 
-            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+        <Grid Grid.Row="1" >
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+            <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid x:Name="ImagesWide" 
+                          MaxHeight="600"
+                          MinHeight="300">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2.1*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <controls:ContentImageControl
+                                Grid.Column="0" Grid.RowSpan="2" Margin="0,0,24,0"
+                                ImageItem="{x:Bind ViewModel.Item, Mode=OneWay}" />
+
+                        <controls:ThumbnailImageControl
+                            Grid.Column="1" Grid.Row="0" Margin="0,0,0,24"
+                            ImageItem="{x:Bind ViewModel.Item.MinuendRessource}"/>
+
+                        <controls:ThumbnailImageControl
+                            Grid.Column="1" Grid.Row="1"
+                            ImageItem="{x:Bind ViewModel.Item.SubtrahendRessource}"/>
+
+                    </Grid>
+
+                    <FlipView x:Name="ImagesNarrow"
+                              VerticalAlignment="Top"
+                              MaxHeight="400"
+                              ItemsSource="{x:Bind ViewModel.Images}"
+                              SelectedItem="{x:Bind ViewModel.Selected}"
+                              ItemTemplate="{StaticResource FlipViewImageItemTemplate}">
+                    </FlipView>
+
+                    <Grid Grid.Row="1"
+                          Margin="0,20,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.RowSpan="2">
+                            <toolkit:HeaderedTextBlock 
+                                x:Uid="AnalysisResultPage_Result"
+                                Header="HeaderedTextBlock"
+                                Text="{x:Bind ViewModel.Result, Mode=OneWay}"
+                                Orientation="Vertical" />
+                        </StackPanel>
+
+                    </Grid>
+                    
+                </Grid>
+            </ScrollViewer>
         </Grid>
 
         <!--  Adaptive triggers  -->
@@ -39,6 +136,10 @@
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="640"/>
                     </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ImagesWide.Visibility" Value="Visible" />
+                        <Setter Target="ImagesNarrow.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="NarrowState">
                     <VisualState.StateTriggers>
@@ -46,6 +147,8 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="TitlePage.Margin" Value="48,0,12,7"/>
+                        <Setter Target="ImagesWide.Visibility" Value="Collapsed" />
+                        <Setter Target="ImagesNarrow.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
