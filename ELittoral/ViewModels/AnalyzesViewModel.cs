@@ -32,6 +32,8 @@ namespace ELittoral.ViewModels
 
         public ICommand AddItemClickCommand { get; private set; }
 
+        public ICommand DeleteItemClickCommand { get; private set; }
+
         public ICommand StateChangedCommand { get; private set; }
 
         public ObservableCollection<AnalysisModel> AnalysisItems { get; private set; } = new ObservableCollection<AnalysisModel>();
@@ -45,6 +47,7 @@ namespace ELittoral.ViewModels
         {
             ItemClickCommand = new RelayCommand<ItemClickEventArgs>(OnItemClick);
             AddItemClickCommand = new RelayCommand<RoutedEventArgs>(OnAddItemClick);
+            DeleteItemClickCommand = new RelayCommand<RoutedEventArgs>(OnDeleteItemClick);
             StateChangedCommand = new RelayCommand<VisualStateChangedEventArgs>(OnStateChanged);
         }
 
@@ -99,6 +102,24 @@ namespace ELittoral.ViewModels
         private void OnAddItemClick(RoutedEventArgs args)
         {
             NavigationService.Navigate<Views.AnalysisAddPage>();
+        }
+
+        private async void OnDeleteItemClick(RoutedEventArgs args)
+        {
+            if (Selected != null)
+            {
+                var dialog = new Windows.UI.Popups.MessageDialog(
+                    "Supprimer une analyse supprime toutes les resultats associés, voulez vous continuer ?",
+                    "Supprimer une analyse"
+                    );
+                dialog.Commands.Add(new Windows.UI.Popups.UICommand("Oui") { Id = 0 });
+                dialog.Commands.Add(new Windows.UI.Popups.UICommand("Non") { Id = 1 });
+
+                dialog.DefaultCommandIndex = 0;
+                dialog.CancelCommandIndex = 1;
+
+                var result = await dialog.ShowAsync();
+            }
         }
     }
 }

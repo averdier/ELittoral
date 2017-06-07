@@ -137,7 +137,8 @@
             <AppBarButton x:Name="DeleteItemBtn" 
                           Label="Delete Item" 
                           Icon="Delete"
-                          Visibility="{x:Bind ViewModel.IsViewState, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                          Visibility="{x:Bind ViewModel.IsViewState, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+                          Command="{x:Bind ViewModel.DeleteItemClickCommand}"/>
         </CommandBar>
         <!--/.CommandBar-->
         

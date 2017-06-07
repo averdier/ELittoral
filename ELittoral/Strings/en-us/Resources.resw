@@ -198,4 +198,13 @@
   <data name="AnalysisAddPage_Title.Text" xml:space="preserve">
     <value>Add Analysis</value>
   </data>
+  <data name="AnalysisAddPage_FlightplanChoice.Header" xml:space="preserve">
+    <value>Choose a flight plan</value>
+  </data>
+  <data name="AnalysisAddPage_ReconAChoice.Header" xml:space="preserve">
+    <value>Choose the minuend recon</value>
+  </data>
+  <data name="AnalysisAddPage_ReconBChoice.Header" xml:space="preserve">
+    <value>Choose the subtrahend recon</value>
+  </data>
 </root>
