@@ -10,6 +10,7 @@ using ELittoral.Services;
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using System.Collections.Generic;
 
 namespace ELittoral.ViewModels
 {
@@ -30,21 +31,21 @@ namespace ELittoral.ViewModels
         public ICommand ItemClickCommand { get; private set; }
 
         public ICommand AddItemClickCommand { get; private set; }
+
         public ICommand StateChangedCommand { get; private set; }
 
         public ObservableCollection<AnalysisModel> AnalysisItems { get; private set; } = new ObservableCollection<AnalysisModel>();
 
 
-        public bool DeleteItemBtnVisibility { get { return Selected != null && _currentState.Name != NarrowStateName;  } }
+        public bool IsViewState { get { return Selected != null && _currentState.Name != NarrowStateName; } }
 
-        public bool DetailContentPresenterVisibility { get; set; }
+
 
         public AnalyzesViewModel()
         {
             ItemClickCommand = new RelayCommand<ItemClickEventArgs>(OnItemClick);
             AddItemClickCommand = new RelayCommand<RoutedEventArgs>(OnAddItemClick);
             StateChangedCommand = new RelayCommand<VisualStateChangedEventArgs>(OnStateChanged);
-            DetailContentPresenterVisibility = true;
         }
 
         public async Task LoadDataAsync(VisualState currentState)
@@ -60,14 +61,20 @@ namespace ELittoral.ViewModels
                 AnalysisItems.Add(item);
             }
             Selected = AnalysisItems.First();
+
+            OnPropertyChanged(nameof(IsViewState));
         }
 
         private void OnStateChanged(VisualStateChangedEventArgs args)
         {
             _currentState = args.NewState;
-            OnPropertyChanged(nameof(DeleteItemBtnVisibility));
+            OnPropertyChanged(nameof(IsViewState));
         }
 
+        /// <summary>
+        /// On click on analysis
+        /// </summary>
+        /// <param name="args"></param>
         private void OnItemClick(ItemClickEventArgs args)
         {
             AnalysisModel item = args?.ClickedItem as AnalysisModel;
@@ -80,15 +87,18 @@ namespace ELittoral.ViewModels
                 else
                 {
                     Selected = item;
-                    OnPropertyChanged(nameof(DeleteItemBtnVisibility));
+                    OnPropertyChanged(nameof(IsViewState));
                 }
             }
         }
 
+        /// <summary>
+        /// On click on button add analysis
+        /// </summary>
+        /// <param name="args"></param>
         private void OnAddItemClick(RoutedEventArgs args)
         {
-            DetailContentPresenterVisibility = false;
-            OnPropertyChanged(nameof(DetailContentPresenterVisibility));
+            NavigationService.Navigate<Views.AnalysisAddPage>();
         }
     }
 }

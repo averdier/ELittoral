@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ELittoral.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,6 +23,8 @@ namespace ELittoral.Views
     /// </summary>
     public sealed partial class AnalysisResultPage : Page
     {
+        public AnalysisResultViewModel ViewModel { get; } = new AnalysisResultViewModel();
+
         public AnalysisResultPage()
         {
             this.InitializeComponent();

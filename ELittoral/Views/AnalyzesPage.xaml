@@ -112,11 +112,11 @@
             </ListView>
         </Grid>
         <!--/.MasterArea-->
-        
+
         <!--DetailContentPresenter-->
         <Grid
             x:Name="DetailContentPresenter"
-            Visibility="{x:Bind ViewModel.DetailContentPresenterVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Visibility="{x:Bind ViewModel.IsViewState, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
             Grid.Row="1"
             Grid.Column="1"
             Padding="24,0,0,0">
@@ -129,11 +129,15 @@
 
         <!--CommandBar-->
         <CommandBar Grid.Row="2" Grid.ColumnSpan="2">
-            <AppBarButton x:Name="AddItemBtn" Label="Add Item" Icon="Add" Command="{x:Bind ViewModel.AddItemClickCommand}"/>
+            <AppBarButton x:Name="AddItemBtn" 
+                          Label="Add Item" 
+                          Icon="Add" 
+                          Command="{x:Bind ViewModel.AddItemClickCommand}"/>
+
             <AppBarButton x:Name="DeleteItemBtn" 
                           Label="Delete Item" 
                           Icon="Delete"
-                          Visibility="{x:Bind ViewModel.DeleteItemBtnVisibility, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                          Visibility="{x:Bind ViewModel.IsViewState, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </CommandBar>
         <!--/.CommandBar-->
         

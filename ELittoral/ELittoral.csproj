@@ -121,11 +121,14 @@
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Models\AnalysisModel.cs" />
     <Compile Include="Models\AnalysisResultModel.cs" />
+    <Compile Include="Models\FlightplanModel.cs" />
     <Compile Include="Models\InstructionItem.cs" />
+    <Compile Include="Models\ReconModel.cs" />
     <Compile Include="Models\SampleModel.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultLaunchActivationHandler.cs" />
     <Compile Include="Services\AnalysisModelService.cs" />
+    <Compile Include="Services\FlightplanModelService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\SampleModelService.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
@@ -133,8 +136,11 @@
     <Compile Include="ValueConverters\NullToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\SelectedLegendItemToColorConverter.cs" />
     <Compile Include="ValueConverters\StateToSolidColorBrush.cs" />
+    <Compile Include="ViewModels\AnalysisAddViewModel.cs" />
+    <Compile Include="ViewModels\AnalysisResultViewModel.cs" />
     <Compile Include="ViewModels\AnalyzesDetailViewModel.cs" />
     <Compile Include="ViewModels\AnalyzesViewModel.cs" />
+    <Compile Include="ViewModels\ApiWebViewModel.cs" />
     <Compile Include="ViewModels\FlightplansViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
@@ -155,6 +161,9 @@
     </Compile>
     <Compile Include="Views\AnalyzesPage.xaml.cs">
       <DependentUpon>AnalyzesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ApiWebPage.xaml.cs">
+      <DependentUpon>ApiWebPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FlightplansPage.xaml.cs">
       <DependentUpon>FlightplansPage.xaml</DependentUpon>
@@ -197,7 +206,7 @@
     <Content Include="Assets\Home\drone.png" />
     <Content Include="Assets\Home\gradient-white.png" />
     <Content Include="Assets\Home\ios.png" />
-    <Content Include="Assets\Home\Logo.png" />
+    <Content Include="Assets\Home\logo_drone.png" />
     <Content Include="Assets\Home\remerciements.png" />
     <Content Include="Assets\Home\win10.png" />
     <Content Include="Properties\Default.rd.xml" />
@@ -244,6 +253,10 @@
     <Page Include="Views\AnalyzesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ApiWebPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FlightplansPage.xaml">
       <Generator>MSBuild:Compile</Generator>

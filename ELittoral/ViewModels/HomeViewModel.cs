@@ -44,7 +44,7 @@ namespace ELittoral.ViewModels
             InstructionItems.Add(new InstructionItem(
                 "ELittoral",
                 "Donec at neque id justo consectetur iaculis. Integer mollis vitae ligula a facilisis. Maecenas at tincidunt tellus. Pellentesque in cursus libero. Nunc ante nunc, rhoncus interdum est non, finibus dictum erat.", 
-                new Uri("ms-appx:///Assets/Home/Logo.png")));
+                new Uri("ms-appx:///Assets/Home/logo_drone.png")));
 
             InstructionItems.Add(new InstructionItem(
                 "Présentation",

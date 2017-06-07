@@ -192,4 +192,10 @@
   <data name="AnalyzesDetailControl_Status.Header" xml:space="preserve">
     <value>Status</value>
   </data>
+  <data name="Shell_Api" xml:space="preserve">
+    <value>Api</value>
+  </data>
+  <data name="AnalysisAddPage_Title.Text" xml:space="preserve">
+    <value>Add Analysis</value>
+  </data>
 </root>

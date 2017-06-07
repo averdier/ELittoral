@@ -21,18 +21,13 @@ namespace ELittoral.Views
     /// <summary>
     /// Une page vide peut être utilisée seule ou constituer une page de destination au sein d'un frame.
     /// </summary>
-    public sealed partial class AnalysisAddPage : Page
+    public sealed partial class ApiWebPage : Page
     {
-        public AnalysisAddViewModel ViewModel { get; } = new AnalysisAddViewModel();
+        public ApiWebViewModel ViewModel { get; } = new ApiWebViewModel();
 
-        public AnalysisAddPage()
+        public ApiWebPage()
         {
             this.InitializeComponent();
-        }
-
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            await ViewModel.LoadDataAsync();
         }
     }
 }

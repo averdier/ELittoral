@@ -111,7 +111,8 @@
                 </Grid.RowDefinitions>
 
                 <!--Informations-->
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal"
+                            Margin="12,0,12,0">
 
                     <toolkit:HeaderedTextBlock 
                         x:Uid="AnalyzesDetailControl_CreatedAt"
@@ -150,12 +151,13 @@
                     Grid.Row="1"
                     Visibility="{x:Bind MasterMenuItem.Message, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
                     Text="{x:Bind MasterMenuItem.Message, Mode=OneWay}"
-                    Orientation="Vertical" />
+                    Orientation="Vertical"
+                    Margin="12,0,12,0"/>
                 <!--/.Error mesage-->
                 
                 <!--Results-->
                 <Grid Grid.Row="2"
-                      Margin="0,20,0,0">
+                      Margin="12,20,12,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
