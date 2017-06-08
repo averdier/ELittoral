@@ -117,6 +117,15 @@ namespace ELittoral.ViewModels
             PopulateNavItems();
         }
 
+        public void OnPageLoaded(VisualState currentState)
+        {
+            if (currentState.Name == NarrowStateName)
+            {
+                DisplayMode = SplitViewDisplayMode.Overlay;
+                IsPaneOpen = false;
+            }
+        }
+
         private void PopulateNavItems()
         {
             _primaryItems.Clear();

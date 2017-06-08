@@ -13,6 +13,13 @@ namespace ELittoral.Views
             InitializeComponent();
             DataContext = ViewModel;
             ViewModel.Initialize(shellFrame);
+
+            this.Loaded += ShellPage_Loaded;
+        }
+
+        private void ShellPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            ViewModel.OnPageLoaded(WindowStates.CurrentState);
         }
     }
 }
