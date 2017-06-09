@@ -18,6 +18,8 @@ namespace ELittoral.ViewModels
 
         public ICommand StateChangedCommand { get; private set; }
 
+        public ICommand DeleteItemClickCommand { get; private set; }
+
         private FlightplanModel _item;
         public FlightplanModel Item
         {
@@ -27,12 +29,31 @@ namespace ELittoral.ViewModels
 
         public FlightplanDetailViewModel()
         {
+            DeleteItemClickCommand = new RelayCommand<RoutedEventArgs>(OnDeleteItemClick);
             StateChangedCommand = new RelayCommand<VisualStateChangedEventArgs>(OnStateChanged);
         }
 
         public void LoadData(FlightplanModel item)
         {
             Item = item;
+        }
+
+        private async void OnDeleteItemClick(RoutedEventArgs args)
+        {
+            if (Item != null)
+            {
+                var dialog = new Windows.UI.Popups.MessageDialog(
+                    "Supprimer un plan de vol supprime toutes les données associés, voulez vous continuer ?",
+                    "Supprimer un plan de vol"
+                    );
+                dialog.Commands.Add(new Windows.UI.Popups.UICommand("Oui") { Id = 0 });
+                dialog.Commands.Add(new Windows.UI.Popups.UICommand("Non") { Id = 1 });
+
+                dialog.DefaultCommandIndex = 0;
+                dialog.CancelCommandIndex = 1;
+
+                var result = await dialog.ShowAsync();
+            }
         }
 
         private void OnStateChanged(VisualStateChangedEventArgs args)

@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:models="using:ELittoral.Models"
     xmlns:controls="using:ELittoral.Controls"
+    xmlns:valueConverters="using:ELittoral.ValueConverters"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -10,8 +11,16 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d">
 
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
+
     <Page.Resources>
-        
+
+        <valueConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
         <!--FlightplanListViewTemplate-->
         <DataTemplate x:Name="FlightplanListViewTemplate" x:DataType="models:FlightplanModel">
             <Grid>
@@ -69,6 +78,19 @@
             Margin="12,0,12,7" Visibility="Collapsed"/>
         <!--/.TitlePage-->
 
+        <!--LoadingContentPresenter-->
+        <ContentPresenter
+            x:Name="LoadingContentPresenter"
+            Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2">
+            <controls:LoadingControl x:Name="LoadingControl"
+                                     Message="{x:Bind ViewModel.LoadingMessage, Mode=OneWay}"
+                                     IsLoading="{x:Bind ViewModel.IsLoading, Mode=OneWay}"/>
+        </ContentPresenter>
+        <!--/.LoadingContentPresenter-->
+
         <!--MasterArea-->
         <Grid
             x:Name="MasterArea"
@@ -113,6 +135,7 @@
         <!--Detail view-->
         <ContentPresenter 
                 x:Name="DetailContentPresenter"
+                Visibility="{x:Bind ViewModel.IsViewState, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
                 Grid.Row="1"
                 Grid.Column="1"
                 BorderThickness="1,0,0,0"
@@ -133,11 +156,14 @@
 
             <AppBarButton x:Name="DeleteItemBtn" 
                           Label="Delete Item" 
-                          Icon="Delete" />
+                          Icon="Delete" 
+                          Visibility="{x:Bind ViewModel.IsViewState, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+                          Command="{x:Bind ViewModel.DeleteItemClickCommand}"/>
 
             <AppBarButton x:Name="EditItemBtn"
                           Label="Edit item"
-                          Icon="Edit" />
+                          Icon="Edit" 
+                          Visibility="{x:Bind ViewModel.IsViewState, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </CommandBar>
         <!--/.CommandBar-->
     

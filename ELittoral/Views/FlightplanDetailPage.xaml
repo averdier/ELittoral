@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ELittoral.Views"
+    xmlns:controls="using:ELittoral.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
@@ -17,11 +18,19 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <controls:FlightplanDetailControl
+            MasterMenuItem="{x:Bind ViewModel.Item}"/>
+
         <!--CommandBar-->
         <CommandBar Grid.Row="1">
+            <AppBarButton x:Name="EditItemBtn"
+                          Label="Edit item"
+                          Icon="Edit" />
+            
             <AppBarButton x:Name="DeleteItemBtn" 
                           Label="Delete Item" 
-                          Icon="Delete"/>
+                          Icon="Delete"
+                          Command="{x:Bind ViewModel.DeleteItemClickCommand}"/>
         </CommandBar>
         <!--/.CommandBar-->
 

@@ -5,6 +5,7 @@
     xmlns:local="using:ELittoral.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -22,5 +23,47 @@
             FontSize="28" FontWeight="SemiLight" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" VerticalAlignment="Center"
             Margin="0,0,12,7"/>
         <!--/.TitlePage-->
+
+        <!--Content-->
+        <ScrollViewer Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <maps:MapControl
+                    x:Name="MapControl"
+                    MapServiceToken="vO24a2cQlz7aGCZB7CEC~pieNg2fCV7WMPDXfmmGQJQ~Aip41PSObxqk3sL6OCTtKAfPVNf1uEjVFvMhn8ZTB4Nw8jC5rFpe7ObFyGqpg5D1"
+                    ZoomInteractionMode="GestureAndControl"
+                    MinHeight="400"
+                    MaxHeight="600"/>
+
+            </Grid>
+        </ScrollViewer>
+        <!--/.Content-->
+
+        <!--  Adaptive triggers  -->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MapControl.Height" Value="600" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TitlePage.Margin" Value="48,0,12,7"/>
+                        <Setter Target="MapControl.Height" Value="400" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>

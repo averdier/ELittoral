@@ -120,6 +120,9 @@
     <Compile Include="Controls\FlightplanDetailControl.xaml.cs">
       <DependentUpon>FlightplanDetailControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\LoadingControl.xaml.cs">
+      <DependentUpon>LoadingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ThumbnailImageControl.xaml.cs">
       <DependentUpon>ThumbnailImageControl.xaml</DependentUpon>
     </Compile>
@@ -141,6 +144,8 @@
     <Compile Include="Services\AnalysisModelService.cs" />
     <Compile Include="Services\FlightplanModelService.cs" />
     <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\Rest\RESTFlightplanModelService.cs" />
+    <Compile Include="Services\Rest\RESTModel.cs" />
     <Compile Include="Services\SampleModelService.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="ValueConverters\BooleanToVisibilityConverter.cs" />
@@ -258,6 +263,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\FlightplanDetailControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LoadingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
