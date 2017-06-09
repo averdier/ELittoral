@@ -16,6 +16,7 @@ namespace ELittoral.Services
 
             var flightplan = new FlightplanModel {
                 Name = "Plan de vol 1",
+                CreatedAt = "07/08/2017",
                 Recons = new List<ReconModel>()
             };
 
@@ -27,6 +28,7 @@ namespace ELittoral.Services
             flightplan = new FlightplanModel
             {
                 Name = "Plan de vol 2",
+                CreatedAt = "07/08/2017",
                 Recons = new List<ReconModel>()
             };
 

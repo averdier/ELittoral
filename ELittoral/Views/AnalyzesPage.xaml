@@ -46,8 +46,6 @@
         
     </Page.Resources>
 
-    
-
     <Grid
         x:Name="ContentArea"
         Margin="0">
@@ -69,7 +67,7 @@
             x:Uid="AnalyzesPage_Title"
             Grid.ColumnSpan="2"
             FontSize="28" FontWeight="SemiLight" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" VerticalAlignment="Center"
-            Margin="0,0,12,7" Visibility="Collapsed"/>
+            Margin="12,0,12,7" Visibility="Collapsed"/>
         <!--/.TitlePage-->
 
         <!--MasterArea-->
@@ -86,7 +84,7 @@
                 x:Name="Title"
                 x:Uid="AnalyzesPage_Title"
                 FontSize="28" FontWeight="SemiLight" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" VerticalAlignment="Center"
-                Margin="0,0,12,7"/>
+                Margin="12,0,12,7"/>
 
             <!--The SystemControlPageBackgroundChromeLowBrush background represents where you should place your master content.-->
             <ListView

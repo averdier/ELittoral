@@ -124,7 +124,7 @@
     <value>Home</value>
   </data>
   <data name="Flightplans_Title.Text" xml:space="preserve">
-    <value>Flightplans</value>
+    <value>Manage Flightplans</value>
   </data>
   <data name="AnalyzesPage_Title.Text" xml:space="preserve">
     <value>Analyzes</value>
@@ -209,5 +209,8 @@
   </data>
   <data name="AnalysisResultPage_Result.Header" xml:space="preserve">
     <value>Result :</value>
+  </data>
+  <data name="FlightplansPage_Title.Text" xml:space="preserve">
+    <value>Flightplans</value>
   </data>
 </root>

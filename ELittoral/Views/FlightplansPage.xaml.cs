@@ -1,6 +1,7 @@
 using ELittoral.ViewModels;
 
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace ELittoral.Views
 {
@@ -10,6 +11,12 @@ namespace ELittoral.Views
         public FlightplansPage()
         {
             InitializeComponent();
+        }
+
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            await ViewModel.LoadDataAsync(WindowStates.CurrentState);
         }
     }
 }
