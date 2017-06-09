@@ -213,4 +213,13 @@
   <data name="FlightplansPage_Title.Text" xml:space="preserve">
     <value>Flightplans</value>
   </data>
+  <data name="FlightplanDetailControl_CreatedAt.Header" xml:space="preserve">
+    <value>Created At</value>
+  </data>
+  <data name="FlightplanDetailControl_UpdatedAt.Header" xml:space="preserve">
+    <value>Updated At</value>
+  </data>
+  <data name="FlightplanDetailControl_Distance.Header" xml:space="preserve">
+    <value>Distance (m)</value>
+  </data>
 </root>

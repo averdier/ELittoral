@@ -62,6 +62,7 @@ namespace ELittoral.ViewModels
             AddItemClickCommand = new RelayCommand<RoutedEventArgs>(OnAddItemClick);
             DeleteItemClickCommand = new RelayCommand<RoutedEventArgs>(OnDeleteItemClick);
             StateChangedCommand = new RelayCommand<VisualStateChangedEventArgs>(OnStateChanged);
+            _modelService = new RESTFlightplanModelService("http://vps361908.ovh.net/dev/elittoral/api/");
         }
 
         public async Task LoadDataAsync(VisualState currentState)
@@ -70,7 +71,6 @@ namespace ELittoral.ViewModels
             _currentState = currentState;
             FlightplansItems.Clear();
 
-            _modelService = new RESTFlightplanModelService("http://vps361908.ovh.net/dev/elittoral/api/flightplans/");
             try
             {
                 LoadingMessage = "Chargement des plans de vols";

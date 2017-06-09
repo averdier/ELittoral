@@ -3,12 +3,97 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ELittoral.Controls"
+    xmlns:models="using:ELittoral.Models"
+    xmlns:valueConverters="using:ELittoral.ValueConverters"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
     mc:Ignorable="d"
+    x:Name="controlRoot"
     d:DesignHeight="300"
     d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <valueConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <valueConverters:DateTimeConverter x:Key="DateTimeConverter" />
+
+        <!--ReconListItemTemplate-->
+        <DataTemplate x:Key="ReconListItemTemplate"
+                      x:DataType="models:ReconModel">
+
+            <Grid Margin="0,0,0,6">
+                <Grid.Transitions>
+                    <TransitionCollection>
+                        <AddDeleteThemeTransition/>
+                    </TransitionCollection>
+                </Grid.Transitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <RelativePanel>
+                    <TextBlock FontSize="16"
+                               x:Name="TextBlockDateTimeTitle"
+                               FontWeight="Normal"
+                               RelativePanel.AlignLeftWithPanel="True"
+                               RelativePanel.AlignVerticalCenterWithPanel="True"
+                               Text="{x:Bind CreatedAt, Mode=OneWay, Converter={StaticResource DateTimeConverter}}" 
+                               TextWrapping="NoWrap"
+                               Style="{ThemeResource SubheaderTextBlockStyle}" />
+
+                    <Button Grid.Column="1"
+                            RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.AlignVerticalCenterWithPanel="True"
+                            Style="{ThemeResource TextBlockButtonStyle}">
+                        <TextBlock x:Uid="CategoriesPage_ShowAllTextBlock"
+                                   FontSize="16"
+                                   Text="Afficher tout"
+                                   Style="{ThemeResource SubheaderTextBlockStyle}" />
+                    </Button>
+                    
+                </RelativePanel>
+                
+
+                <ScrollViewer HorizontalScrollMode="Disabled"
+                              HorizontalScrollBarVisibility="Hidden"
+                              VerticalScrollMode="Disabled"
+                              VerticalScrollBarVisibility="Hidden"
+                              Grid.Row="1"
+                              Margin="0,6,0,0">
+                    <ItemsControl ItemsSource="{x:Bind Resources}" IsTabStop="False">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:ReconResourceModel">
+                                <Button Background="White" Padding="0" 
+                                        Margin="0,0,8,4">
+                                    <toolkit:ImageEx
+                                        x:Name="ThumbnailImage"
+                                        Source="{x:Bind Thumbnail}"
+                                        Height="{Binding ThumbnailImageSideLength, ElementName=controlRoot}"
+                                        Width="{Binding ThumbnailImageSideLength, ElementName=controlRoot}"
+                                        IsCacheEnabled="False"
+                                        Stretch="UniformToFill"
+                                        PlaceholderSource="/Assets/600x400.png"
+                                        PlaceholderStretch="UniformToFill"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"/>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </DataTemplate>
+        <!--/.ReconListItemTemplate-->
+        
+    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -19,13 +104,24 @@
         <!--TitlePage-->
         <TextBlock
             x:Name="TitlePage"
-            Text="{x:Bind MasterMenuItem.Name, Mode=OneWay}"
+            Text="{x:Bind ControlModel.Item.Name, Mode=OneWay}"
             FontSize="28" FontWeight="SemiLight" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" VerticalAlignment="Center"
             Margin="0,0,12,7"/>
         <!--/.TitlePage-->
 
+        <!--LoadingContentPresenter-->
+        <Grid
+            x:Name="LoadingContentPresenter"
+            Visibility="{x:Bind ControlModel.IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Grid.Row="1">
+            <local:LoadingControl x:Name="LoadingControl"
+                                     Message="{x:Bind ControlModel.LoadingMessage, Mode=OneWay}"
+                                     IsLoading="{x:Bind ControlModel.IsLoading, Mode=OneWay}"/>
+        </Grid>
+        <!--/.LoadingContentPresenter-->
+
         <!--Content-->
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer Grid.Row="1" Visibility="{x:Bind ControlModel.IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -34,10 +130,55 @@
 
                 <maps:MapControl
                     x:Name="MapControl"
+                    Style="Aerial3D"
                     MapServiceToken="vO24a2cQlz7aGCZB7CEC~pieNg2fCV7WMPDXfmmGQJQ~Aip41PSObxqk3sL6OCTtKAfPVNf1uEjVFvMhn8ZTB4Nw8jC5rFpe7ObFyGqpg5D1"
-                    ZoomInteractionMode="GestureAndControl"
+                    ZoomInteractionMode="GestureAndControl" RotateInteractionMode="GestureAndControl" TiltInteractionMode="GestureAndControl" PanInteractionMode="Auto"
                     MinHeight="400"
                     MaxHeight="600"/>
+
+                <Grid Grid.Row="1" Margin="12,20,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <toolkit:HeaderedTextBlock 
+                            x:Uid="FlightplanDetailControl_CreatedAt"
+                            Header="HeaderedTextBlock"
+                            Text="{x:Bind ControlModel.Item.CreatedAt, Mode=OneWay, Converter={StaticResource DateTimeConverter}}"
+                            Orientation="Vertical" />
+
+                        <toolkit:HeaderedTextBlock 
+                            x:Uid="FlightplanDetailControl_UpdatedAt"
+                            Header="HeaderedTextBlock"
+                            Text="{x:Bind ControlModel.Item.UpdatedAt, Mode=OneWay}"
+                            Orientation="Vertical"
+                            Margin="20,0,0,0"/>
+
+                        <toolkit:HeaderedTextBlock 
+                            x:Uid="FlightplanDetailControl_Distance"
+                            Header="HeaderedTextBlock"
+                            Text="{x:Bind ControlModel.Item.Distance, Mode=OneWay}"
+                            Orientation="Vertical"
+                            Margin="20,0,0,0"/>
+
+                    </StackPanel>
+
+                    <ListView Grid.Row="1"
+                              Margin="-12,10,0,0"
+                              ItemTemplate="{StaticResource ReconListItemTemplate}"
+                              SelectionMode="None"
+                              ItemsSource="{x:Bind ControlModel.Item.Recons, Mode=OneWay}"
+                              Background="Transparent">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </Grid>
 
             </Grid>
         </ScrollViewer>

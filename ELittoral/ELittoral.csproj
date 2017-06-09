@@ -114,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activation\ActivationHandler.cs" />
+    <Compile Include="ControlModels\FlightplanDetailControlModel.cs" />
     <Compile Include="Controls\ContentImageControl.xaml.cs">
       <DependentUpon>ContentImageControl.xaml</DependentUpon>
     </Compile>
@@ -127,18 +128,22 @@
       <DependentUpon>ThumbnailImageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions\BoolExtensions.cs" />
+    <Compile Include="Helpers\Geographical.cs" />
     <Compile Include="Helpers\Json.cs" />
     <Compile Include="Helpers\Observable.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\SettingsStorageExtensions.cs" />
     <Compile Include="Models\AnalysisModel.cs" />
     <Compile Include="Models\AnalysisResultModel.cs" />
+    <Compile Include="Models\DroneParametersModel.cs" />
     <Compile Include="Models\FlightplanModel.cs" />
+    <Compile Include="Models\GimbalModel.cs" />
     <Compile Include="Models\ImageModel.cs" />
     <Compile Include="Models\InstructionItem.cs" />
     <Compile Include="Models\ReconModel.cs" />
-    <Compile Include="Models\ReconRessourceModel.cs" />
+    <Compile Include="Models\ReconResourceModel.cs" />
     <Compile Include="Models\SampleModel.cs" />
+    <Compile Include="Models\WaypointModel.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Activation\DefaultLaunchActivationHandler.cs" />
     <Compile Include="Services\AnalysisModelService.cs" />
@@ -146,9 +151,13 @@
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\Rest\RESTFlightplanModelService.cs" />
     <Compile Include="Services\Rest\RESTModel.cs" />
+    <Compile Include="Services\Rest\RESTReconModelService.cs" />
+    <Compile Include="Services\Rest\RESTResourceModelService.cs" />
+    <Compile Include="Services\Rest\RESTWaypointModelService.cs" />
     <Compile Include="Services\SampleModelService.cs" />
     <Compile Include="Services\ThemeSelectorService.cs" />
     <Compile Include="ValueConverters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\DateTimeConverter.cs" />
     <Compile Include="ValueConverters\NullToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\ObjectToImageModelConverter.cs" />
     <Compile Include="ValueConverters\SelectedLegendItemToColorConverter.cs" />
@@ -238,6 +247,7 @@
     <Content Include="Assets\Home\logo_drone.png" />
     <Content Include="Assets\Home\remerciements.png" />
     <Content Include="Assets\Home\win10.png" />
+    <Content Include="Assets\map.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

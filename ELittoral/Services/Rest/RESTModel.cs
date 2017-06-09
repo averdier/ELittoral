@@ -3,6 +3,53 @@ using System.Collections.Generic;
 
 namespace ELittoral.Services.Rest
 {
+    public class Gimbal
+    {
+        public double yaw { get; set; }
+        public double pitch { get; set; }
+        public double roll { get; set; }
+    }
+
+    public class GPSCoord
+    {
+        public double lat { get; set; }
+        public double lon { get; set; }
+        public double alt { get; set; }
+    }
+
+    public class DroneParameters
+    {
+        public GPSCoord coord { get; set; }
+        public double rotation { get; set; }
+        public Gimbal gimbal { get; set; }
+    }
+
+    public class Waypoint
+    {
+        public object id { get; set; }
+        public int number { get; set; }
+        public DroneParameters parameters { get; set; }
+    }
+
+    public class Resource
+    {
+        public int id { get; set; }
+        public int recon_id { get; set; }
+        public string created_on { get; set; }
+        public int number { get; set; }
+        public object filename { get; set; }
+        public DroneParameters parameters { get; set; }
+    }
+
+    public class Recon
+    {
+        public int id { get; set; }
+        public int flightplan_id { get; set; }
+        public string created_on { get; set; }
+        public int resources_count { get; set; }
+        public List<Resource> resources { get; set; }
+    }
+
     public class FlightPlan
     {
         public object id { get; set; }
@@ -12,6 +59,8 @@ namespace ELittoral.Services.Rest
         public double distance { get; set; }
         public int waypoints_count { get; set; }
         public int recons_count { get; set; }
+        public List<Waypoint> waypoints { get; set; }
+        public List<Recon> recons { get; set; }
     }
 
     public class FlightPlanDataContainer

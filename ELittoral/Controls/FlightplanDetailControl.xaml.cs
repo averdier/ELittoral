@@ -1,4 +1,5 @@
-﻿using ELittoral.Models;
+﻿using ELittoral.ControlModels;
+using ELittoral.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,11 +27,51 @@ namespace ELittoral.Controls
             set { SetValue(MasterMenuItemProperty, value); }
         }
 
+        public int ThumbnailImageSideLength
+        {
+            get { return (int)GetValue(ThumbnailImageSideLengthProperty); }
+            set { SetValue(ThumbnailImageSideLengthProperty, value);  }
+        }
+
         public static DependencyProperty MasterMenuItemProperty = DependencyProperty.Register("MasterMenuItem", typeof(FlightplanModel), typeof(FlightplanDetailControl), new PropertyMetadata(null));
+        public static DependencyProperty ThumbnailImageSideLengthProperty = DependencyProperty.Register("ThumbnailImageSideLength", typeof(int), typeof(FlightplanDetailControl), new PropertyMetadata(null));
+
+        public FlightplanDetailControlModel ControlModel { get; private set; } 
 
         public FlightplanDetailControl()
         {
             this.InitializeComponent();
+            ThumbnailImageSideLength = 100;
+            ControlModel = new FlightplanDetailControlModel(MapControl);
+            this.RegisterPropertyChangedCallback(MasterMenuItemProperty, OnMasterMenuItemPropertyChanged);
+            this.SizeChanged += FlightplanDetailControl_SizeChanged;
+            
+        }
+
+        private void FlightplanDetailControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateThumbnailSize();
+        }
+
+        private void OnMasterMenuItemPropertyChanged(DependencyObject sender, DependencyProperty dp)
+        {
+            if (dp == MasterMenuItemProperty)
+            {
+                ControlModel.OnMasterItemChanged(MasterMenuItem);
+            }
+        }
+
+        private void UpdateThumbnailSize()
+        {
+            
+            if (controlRoot.ActualWidth > 1300)
+            {
+                ThumbnailImageSideLength = 150;
+            }
+            else
+            {
+                ThumbnailImageSideLength = 100;
+            }
         }
     }
 }

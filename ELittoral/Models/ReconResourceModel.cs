@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace ELittoral.Models
 {
-    public class ReconModel
+    public class ReconResourceModel : ImageModel
     {
         public int Id { get; set; }
-        public string CreatedAt { get; set; }
-        public int ResourceCount { get; set; }
-        public IList<ReconResourceModel> Resources { get; set; }
+        public int Number { get; set; }
+        public DroneParametersModel Parameters { get; set; }
     }
 }

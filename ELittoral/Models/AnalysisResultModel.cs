@@ -14,9 +14,9 @@ namespace ELittoral.Models
 
         public string Result { get; set; }
 
-        public ReconRessourceModel MinuendRessource { get; set; }
+        public ReconResourceModel MinuendRessource { get; set; }
 
-        public ReconRessourceModel SubtrahendRessource { get; set; }
+        public ReconResourceModel SubtrahendRessource { get; set; }
 
     }
 }

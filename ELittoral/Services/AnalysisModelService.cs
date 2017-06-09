@@ -32,13 +32,13 @@ namespace ELittoral.Services
                 CreatedAt = "25/04/2017",
                 Result = "0.0254",
                 Content = new Uri("http://vps361908.ovh.net/dev/elittoral/api/results/8/content"),
-                MinuendRessource = new ReconRessourceModel
+                MinuendRessource = new ReconResourceModel
                 {
                     CreatedAt = "27/09/2017",
                     Thumbnail = new Uri("http://vps361908.ovh.net/dev/elittoral/api/resources/15/thumbnail"),
                     Content = new Uri("http://vps361908.ovh.net/dev/elittoral/api/resources/15/content")
                 },
-                SubtrahendRessource = new ReconRessourceModel
+                SubtrahendRessource = new ReconResourceModel
                 {
                     CreatedAt = "25/04/2017",
                     Thumbnail = new Uri("http://vps361908.ovh.net/dev/elittoral/api/resources/9/thumbnail"),
@@ -52,13 +52,13 @@ namespace ELittoral.Services
                 CreatedAt = "17/03/2015",
                 Result = "0.001",
                 Content = new Uri("http://vps361908.ovh.net/dev/elittoral/api/results/9/content"),
-                MinuendRessource = new ReconRessourceModel
+                MinuendRessource = new ReconResourceModel
                 {
                     CreatedAt = "19/10/2016",
                     Thumbnail = new Uri("http://vps361908.ovh.net/dev/elittoral/api/resources/16/thumbnail"),
                     Content = new Uri("http://vps361908.ovh.net/dev/elittoral/api/resources/16/content")
                 },
-                SubtrahendRessource = new ReconRessourceModel
+                SubtrahendRessource = new ReconResourceModel
                 {
                     CreatedAt = "13/03/2015",
                     Thumbnail = new Uri("http://vps361908.ovh.net/dev/elittoral/api/resources/10/thumbnail"),
@@ -72,13 +72,13 @@ namespace ELittoral.Services
                 CreatedAt = "17/03/2015",
                 Result = "0.33",
                 Content = new Uri("http://vps361908.ovh.net/dev/elittoral/api/results/10/content"),
-                MinuendRessource = new ReconRessourceModel
+                MinuendRessource = new ReconResourceModel
                 {
                     CreatedAt = "17/03/2016",
                     Thumbnail = new Uri("http://vps361908.ovh.net/dev/elittoral/api/resources/17/thumbnail"),
                     Content = new Uri("http://vps361908.ovh.net/dev/elittoral/api/resources/17/content")
                 },
-                SubtrahendRessource = new ReconRessourceModel
+                SubtrahendRessource = new ReconResourceModel
                 {
                     CreatedAt = "17/03/2015",
                     Thumbnail = new Uri("http://vps361908.ovh.net/dev/elittoral/api/resources/11/thumbnail"),

@@ -16,7 +16,13 @@ namespace ELittoral.Models
 
         public string UpdatedAt { get; set; }
 
-        public string Distance { get; set; }
+        public double Distance { get; set; }
+
+        public int WaypointCount { get; set; }
+
+        public int ReconCount { get; set; }
+
+        public IList<WaypointModel> Waypoints { get; set; }
 
         public IList<ReconModel> Recons { get; set; }
     }

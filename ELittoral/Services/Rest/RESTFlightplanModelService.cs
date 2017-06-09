@@ -14,6 +14,7 @@ namespace ELittoral.Services.Rest
     public class RESTFlightplanModelService
     {
         private string baseUri;
+        private string namespaceUri = "flightplans/";
         private HttpClient httpClient;
         private CancellationTokenSource cts;
 
@@ -24,11 +25,48 @@ namespace ELittoral.Services.Rest
             baseUri = uri;
         }
 
+        public static FlightplanModel FlightplanToFlightplanModel(FlightPlan flightplan)
+        {
+            var model = new FlightplanModel
+            {
+                Name = flightplan.name,
+                CreatedAt = flightplan.created_on,
+                Distance = flightplan.distance,
+                WaypointCount = flightplan.waypoints_count,
+                ReconCount = flightplan.recons_count
+            };
+
+            if (flightplan.id != null)
+            {
+                model.Id = Convert.ToInt32(flightplan.id);
+            }
+
+            if (flightplan.waypoints != null)
+            {
+                model.Waypoints = new List<WaypointModel>();
+                foreach(Waypoint wp in flightplan.waypoints)
+                {
+                    model.Waypoints.Add(RESTWaypointModelService.WaypointToWaypointModel(wp));
+                }
+            }
+
+            if (flightplan.recons != null)
+            {
+                model.Recons = new List<ReconModel>();
+                foreach(Recon rec in flightplan.recons)
+                {
+                    model.Recons.Add(RESTReconModelService.ReconToReconModel(rec));
+                }
+            }
+
+            return model;
+        }
+
         public async Task<IEnumerable<FlightplanModel>> GetFlightplansAsync()
         {
             await Task.CompletedTask;
 
-            Uri resourceUri = new Uri(baseUri);
+            Uri resourceUri = new Uri(baseUri + namespaceUri);
             HttpResponseMessage response = await httpClient.GetAsync(resourceUri).AsTask(cts.Token);
 
             var strResponse = await response.Content.ReadAsStringAsync();
@@ -40,17 +78,23 @@ namespace ELittoral.Services.Rest
             {
                 foreach (FlightPlan fp in container.flightplans)
                 {
-                    data.Add(new FlightplanModel
-                    {
-                        Id = Convert.ToInt32(fp.id),
-                        Name = fp.name,
-                        CreatedAt = fp.created_on,
-                        Distance = string.Format("{0} m", Math.Round(fp.distance, 4).ToString(CultureInfo.InvariantCulture))
-                    });
+                    data.Add(FlightplanToFlightplanModel(fp));
                 }
             }
 
             return data;
+        }
+
+        public async Task<FlightplanModel> GetFlightplanFromIdAsync(int flightplanId)
+        {
+            await Task.CompletedTask;
+            Uri resourceUri = new Uri(baseUri + namespaceUri + flightplanId);
+            HttpResponseMessage response = await httpClient.GetAsync(resourceUri).AsTask(cts.Token);
+
+            var strResponse = await response.Content.ReadAsStringAsync();
+            var flightplan = JsonConvert.DeserializeObject<FlightPlan>(strResponse);
+
+            return FlightplanToFlightplanModel(flightplan);
         }
 
         public void CancelTask()
