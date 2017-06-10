@@ -3,6 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ELittoral.Styles">
 
+    <x:Double x:Key="MinWindowSnapPoint">0</x:Double>
+    <x:Double x:Key="MediumWindowSnapPoint">641</x:Double>
+    <x:Double x:Key="LargeWindowSnapPoint">1008</x:Double>
+    
     <Color x:Key="Grey-01">#E6E6E6</Color>
     <SolidColorBrush x:Key="Brush-Grey-01" Color="{StaticResource Grey-01}"/>
 

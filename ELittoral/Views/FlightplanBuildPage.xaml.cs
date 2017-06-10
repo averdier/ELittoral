@@ -8,6 +8,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
@@ -23,10 +24,18 @@ namespace ELittoral.Views
     /// </summary>
     public sealed partial class FlightplanBuildPage : Page
     {
-        public FlightplanBuildViewModel ViewModel { get; } = new FlightplanBuildViewModel();
+        public FlightplanBuildViewModel ViewModel { get; private set; }
         public FlightplanBuildPage()
         {
             this.InitializeComponent();
+            ViewModel = new FlightplanBuildViewModel(MyMap, MapFlyout);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            ViewModel.OnNavigatedToPage();
+            this.DataContext = ViewModel.BuildOptions;
         }
     }
 }

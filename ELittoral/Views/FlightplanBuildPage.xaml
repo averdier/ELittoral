@@ -5,6 +5,10 @@
     xmlns:local="using:ELittoral.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    x:Name="pageRoot"
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea"
@@ -22,8 +26,173 @@
             FontSize="28" FontWeight="SemiLight" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" VerticalAlignment="Center"
             Margin="0,0,12,7"/>
 
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <maps:MapControl x:Name="MyMap" 
+                             Margin="0"
+                             Grid.RowSpan="2"
+                             ZoomLevel="15"
+                             Style="AerialWithRoads"
+                             MapServiceToken="vO24a2cQlz7aGCZB7CEC~pieNg2fCV7WMPDXfmmGQJQ~Aip41PSObxqk3sL6OCTtKAfPVNf1uEjVFvMhn8ZTB4Nw8jC5rFpe7ObFyGqpg5D1"
+                             ZoomInteractionMode="GestureAndControl" RotateInteractionMode="GestureAndControl" TiltInteractionMode="GestureAndControl" PanInteractionMode="Auto"
+                             IsRightTapEnabled="True">
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="MapRightTapped">
+                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.MapRightTappedCommand}" />
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+                <FlyoutBase.AttachedFlyout>
+                    <MenuFlyout x:Name="MapFlyout">
+                        <MenuFlyoutItem Text="Générateur vers" Command="{x:Bind ViewModel.MapMenuFlyoutBuildToCommand}"/>
+                        <MenuFlyoutItem Text="Générateur depuis"  Command="{x:Bind ViewModel.MapMenuFlyoutBuildFromCommand}"/>
+                    </MenuFlyout>
+                </FlyoutBase.AttachedFlyout>
+            </maps:MapControl>
+
+            <!--ParametersLayout-->
+            <ScrollViewer x:Name="ParametersLayout"
+                      Grid.Column="1"
+                          Grid.RowSpan="2"
+                      Margin="10,10,0,0">
+                <StackPanel Margin="0,0,10,0">
+
+                    <TextBox Header="Nom du plan de vol" PlaceholderText="Nom" Text="{Binding FlightPlanName, Mode=TwoWay}"/>
+                    <TextBlock Text="{Binding Errors[FlightPlanName][0]}"
+                               Foreground="Red"
+                               HorizontalAlignment="Right" />
+
+                    <!--BuildFrom-->
+                    <TextBlock Text="Point de départ" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Margin="0,0,10,0">
+                            <TextBox Header="Latitude" PlaceholderText="Latitude" Text="{Binding BuildFromLatitude, Mode=TwoWay}" />
+                            <TextBlock Text="{Binding Errors[BuildFromLatitude][0]}"
+                                       Foreground="Red"
+                                       HorizontalAlignment="Right" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                            <TextBox Header="Longitude" PlaceholderText="Longitude" Text="{Binding BuildFromLongitude, Mode=TwoWay}"/>
+                            <TextBlock Text="{Binding Errors[BuildFromLongitude][0]}"
+                                       Foreground="Red"
+                                       HorizontalAlignment="Right" />
+                        </StackPanel>
+                    </Grid>
+                    <!--/.BuildFrom-->
+
+                    <!--BuildTo-->
+                    <TextBlock Text="Point d'arrivée" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Margin="0,0,10,0">
+                            <TextBox Header="Latitude" PlaceholderText="Latitude" Text="{Binding BuildToLatitude, Mode=TwoWay}" />
+                            <TextBlock Text="{Binding Errors[BuildToLatitude][0]}"
+                                       Foreground="Red"
+                                       HorizontalAlignment="Right" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                            <TextBox Header="Longitude" PlaceholderText="Longitude" Text="{Binding BuildToLongitude, Mode=TwoWay}" />
+                            <TextBlock Text="{Binding Errors[BuildToLongitude][0]}"
+                                       Foreground="Red"
+                                       HorizontalAlignment="Right" />
+                        </StackPanel>
+                    </Grid>
+                    <!--/.BuildTo-->
+
+                    <TextBlock Text="Paramètres de génération" Margin="0,10,0,10" />
+
+                    <!--Build Parameters-->
+                    <TextBox Header="Incrément vertical (m)" Text="{Binding VerticalIncrement, Mode=TwoWay}" />
+                    <TextBlock Text="{Binding Errors[VerticalIncrement][0]}"
+                               Foreground="Red"
+                               HorizontalAlignment="Right" />
+
+                    <TextBox Header="Incrément horizontal (m)" Text="{Binding HorizontalIncrement, Mode=TwoWay}" />
+                    <TextBlock Text="{Binding Errors[HorizontalIncrement][0]}"
+                               Foreground="Red"
+                               HorizontalAlignment="Right" />
+
+                    <TextBox Header="Altitude de départ (m)" Text="{Binding StartAltitude, Mode=TwoWay}" />
+                    <TextBlock Text="{Binding Errors[StartAltitude][0]}"
+                               Foreground="Red"
+                               HorizontalAlignment="Right" />
+
+                    <TextBox Header="Altitude finale (m)" Text="{Binding EndAltitude, Mode=TwoWay}" />
+                    <TextBlock Text="{Binding Errors[EndAltitude][0]}"
+                               Foreground="Red"
+                               HorizontalAlignment="Right" />
+                    <!--/.Build Parameters-->
+
+                    <TextBlock Text="Paramètres du drone" Margin="0,10,0,10" />
+
+                    <!--Drone Parameters-->
+                    <TextBox Header="Rotation du drone (°)" Text="{Binding Rotation, Mode=TwoWay}" />
+                    <TextBlock Text="{Binding Errors[Rotation][0]}"
+                               Foreground="Red"
+                               HorizontalAlignment="Right" />
+                    <!--/.Drone Parameters-->
+
+                    <TextBlock Text="Paramètres du gimbal" Margin="0,10,0,10" />
+
+                    <!--Gimbal Parameters-->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel>
+                            <TextBox Header="Yaw" PlaceholderText="Yaw" Text="{Binding GimbalYaw, Mode=TwoWay}" />
+                            <TextBlock Text="{Binding Errors[GimbalYaw][0]}"
+                                       Foreground="Red"
+                                       HorizontalAlignment="Right" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                            <TextBox Header="Pitch" PlaceholderText="Pitch" Text="{Binding GimbalPitch, Mode=TwoWay}" />
+                            <TextBlock Text="{Binding Errors[GimbalPitch][0]}"
+                                       Foreground="Red"
+                                       HorizontalAlignment="Right" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Margin="10,0,0,0">
+                            <TextBox Header="Roll" PlaceholderText="Roll" Text="{Binding GimbalRoll, Mode=TwoWay}" />
+                            <TextBlock Text="{Binding Errors[GimbalRoll][0]}"
+                                       Foreground="Red"
+                                       HorizontalAlignment="Right" />
+                        </StackPanel>
+                    </Grid>
+                    <!--/.Gimbal Parameters-->
+
+
+                </StackPanel>
+            </ScrollViewer>
+            <!--/.ParametersLayout-->
+
+        </Grid>
+
         <!--CommandBar-->
         <CommandBar Grid.Row="2">
+            <AppBarButton x:Name="AddBtn"
+                          Label="Build"
+                          Icon="Save" 
+                          Command="{x:Bind ViewModel.AddClickCommand}"/>
             <AppBarButton x:Name="CancelBtn" 
                           Label="Cancel" 
                           Icon="Cancel"
@@ -34,17 +203,48 @@
         <!--  Adaptive triggers  -->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">
-                <VisualState x:Name="WideState">
+                <VisualState x:Name="LargeState">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="640"/>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource LargeWindowSnapPoint}"/>
                     </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MyMap.(Grid.RowSpan)" Value="2" />
+                        <Setter Target="MyMap.(Grid.ColumnSpan)" Value="1" />
+
+                        <Setter Target="ParametersLayout.(Grid.RowSpan)" Value="2" />
+                        <Setter Target="ParametersLayout.(Grid.ColumnSpan)" Value="1" />
+                        <Setter Target="ParametersLayout.(Grid.Row)" Value="0" />
+                        <Setter Target="ParametersLayout.(Grid.Column)" Value="1" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="MediumState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource MediumWindowSnapPoint}"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MyMap.(Grid.RowSpan)" Value="1" />
+                        <Setter Target="MyMap.(Grid.ColumnSpan)" Value="2" />
+
+                        <Setter Target="ParametersLayout.(Grid.RowSpan)" Value="1" />
+                        <Setter Target="ParametersLayout.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="ParametersLayout.(Grid.Row)" Value="1" />
+                        <Setter Target="ParametersLayout.(Grid.Column)" Value="0" />
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="NarrowState">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource MinWindowSnapPoint}"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="TitlePage.Margin" Value="48,0,12,7"/>
+                        
+                        <Setter Target="MyMap.(Grid.RowSpan)" Value="1" />
+                        <Setter Target="MyMap.(Grid.ColumnSpan)" Value="2" />
+
+                        <Setter Target="ParametersLayout.(Grid.RowSpan)" Value="1" />
+                        <Setter Target="ParametersLayout.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="ParametersLayout.(Grid.Row)" Value="1" />
+                        <Setter Target="ParametersLayout.(Grid.Column)" Value="0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

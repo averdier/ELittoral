@@ -222,4 +222,7 @@
   <data name="FlightplanDetailControl_Distance.Header" xml:space="preserve">
     <value>Distance (m)</value>
   </data>
+  <data name="FlightplanBuildPage_Title.Text" xml:space="preserve">
+    <value>Build a flight plan</value>
+  </data>
 </root>

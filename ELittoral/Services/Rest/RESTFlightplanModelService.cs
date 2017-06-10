@@ -97,6 +97,65 @@ namespace ELittoral.Services.Rest
             return FlightplanToFlightplanModel(flightplan);
         }
 
+        public async Task<FlightplanModel> BuildFlightplan(BuildOptionsModel options)
+        {
+            await Task.CompletedTask;
+
+            Uri resourceUri = new Uri(baseUri + namespaceUri + "build");
+
+            double lat1, lat2, lon1, lon2, yaw, pitch, roll, rotation, alt_end, alt_start, h_increment, v_increment = 0;
+
+            double.TryParse(options.BuildFromLatitude, NumberStyles.Float, CultureInfo.InvariantCulture, out lat1);
+            double.TryParse(options.BuildToLatitude, NumberStyles.Float, CultureInfo.InvariantCulture, out lat2);
+            double.TryParse(options.BuildFromLongitude, NumberStyles.Float, CultureInfo.InvariantCulture, out lon1);
+            double.TryParse(options.BuildToLongitude, NumberStyles.Float, CultureInfo.InvariantCulture, out lon2);
+            double.TryParse(options.GimbalYaw, NumberStyles.Float, CultureInfo.InvariantCulture, out yaw);
+            double.TryParse(options.GimbalPitch, NumberStyles.Float, CultureInfo.InvariantCulture, out pitch);
+            double.TryParse(options.GimbalRoll, NumberStyles.Float, CultureInfo.InvariantCulture, out roll);
+            double.TryParse(options.Rotation, NumberStyles.Float, CultureInfo.InvariantCulture, out rotation);
+            double.TryParse(options.StartAltitude, NumberStyles.Float, CultureInfo.InvariantCulture, out alt_start);
+            double.TryParse(options.EndAltitude, NumberStyles.Float, CultureInfo.InvariantCulture, out alt_end);
+            double.TryParse(options.HorizontalIncrement, NumberStyles.Float, CultureInfo.InvariantCulture, out h_increment);
+            double.TryParse(options.VerticalIncrement, NumberStyles.Float, CultureInfo.InvariantCulture, out v_increment);
+
+            var post_options = new
+            {
+                save = true,
+                flightplan_name = options.FlightPlanName,
+                coord1 = new GPSCoord
+                {
+                    lat = lat1,
+                    lon = lon1
+                },
+                coord2 = new GPSCoord
+                {
+                    lat = lat2,
+                    lon = lon2
+                },
+                d_gimbal = new Gimbal
+                {
+                    yaw = yaw,
+                    pitch = pitch,
+                    roll = roll
+                },
+                alt_start = alt_start,
+                alt_end = alt_end,
+                h_increment = h_increment,
+                v_increment = v_increment,
+                d_rotation = rotation
+            };
+
+            string jsonObject = "";
+            jsonObject = JsonConvert.SerializeObject(post_options);
+
+            var httpC = new System.Net.Http.HttpClient();
+            var response = await httpC.PostAsync(resourceUri, new System.Net.Http.StringContent(jsonObject, System.Text.Encoding.UTF8, "application/json"));
+
+            var strResponse = await response.Content.ReadAsStringAsync();
+            var flightplan = JsonConvert.DeserializeObject<FlightPlan>(strResponse);
+
+            return FlightplanToFlightplanModel(flightplan);
+        }
         public void CancelTask()
         {
             cts.Cancel();
