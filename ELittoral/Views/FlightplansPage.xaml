@@ -84,7 +84,7 @@
             Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
             Grid.Row="1"
             Grid.RowSpan="2"
-            Grid.ColumnSpan="2">
+            Grid.ColumnSpan="{x:Bind ViewModel.LoadingColumnSpan}">
             <controls:LoadingControl x:Name="LoadingControl"
                                      Message="{x:Bind ViewModel.LoadingMessage, Mode=OneWay}"
                                      IsLoading="{x:Bind ViewModel.IsLoading, Mode=OneWay}"/>
@@ -95,7 +95,8 @@
         <Grid
             x:Name="MasterArea"
             Grid.Row="1"
-            Grid.Column="0">
+            Grid.Column="0"
+            Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}">
             <Grid.RowDefinitions>
             <RowDefinition x:Name="MasterRow" Height="48"/>
             <RowDefinition Height="*"/>
@@ -149,6 +150,10 @@
         <!--CommandBar-->
         <CommandBar Grid.Row="2"
                     Grid.ColumnSpan="2">
+            <AppBarButton x:Name="RefreshItemsBtn"
+                          Label="Refresh"
+                          Icon="Refresh"
+                          Command="{x:Bind ViewModel.RefreshItemsClickCommand}"/>
             <AppBarButton x:Name="AddItemBtn" 
                           Label="Add Item" 
                           Icon="Add" 

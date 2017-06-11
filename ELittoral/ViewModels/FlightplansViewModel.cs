@@ -32,6 +32,8 @@ namespace ELittoral.ViewModels
 
         public ObservableCollection<FlightplanModel> FlightplansItems { get; private set; } = new ObservableCollection<FlightplanModel>();
 
+        public ICommand RefreshItemsClickCommand { get; private set; }
+
         public ICommand ItemClickCommand { get; private set; }
 
         public ICommand AddItemClickCommand { get; private set; }
@@ -40,7 +42,7 @@ namespace ELittoral.ViewModels
 
         public ICommand StateChangedCommand { get; private set; }
 
-        public bool IsViewState { get { return Selected != null && _currentState.Name != NarrowStateName; } }
+        public bool IsViewState { get { return Selected != null  && !IsLoading && _currentState.Name != NarrowStateName; } }
 
         private bool _isLoading;
         public bool IsLoading
@@ -56,8 +58,16 @@ namespace ELittoral.ViewModels
             set { Set(ref _loadingMessage, value); }
         }
 
+        private int _loadingColumnSpan;
+        public int LoadingColumnSpan
+        {
+            get { return _loadingColumnSpan; }
+            set { Set(ref _loadingColumnSpan, value); }
+        }
+
         public FlightplansViewModel()
         {
+            RefreshItemsClickCommand = new RelayCommand<ItemClickEventArgs>(OnRefreshItemsClick);
             ItemClickCommand = new RelayCommand<ItemClickEventArgs>(OnItemClick);
             AddItemClickCommand = new RelayCommand<RoutedEventArgs>(OnAddItemClick);
             DeleteItemClickCommand = new RelayCommand<RoutedEventArgs>(OnDeleteItemClick);
@@ -67,7 +77,9 @@ namespace ELittoral.ViewModels
 
         public async Task LoadDataAsync(VisualState currentState)
         {
+            LoadingColumnSpan = (currentState.Name == NarrowStateName) ? 1 : 2;
             IsLoading = true;
+            OnPropertyChanged(nameof(IsViewState));
             _currentState = currentState;
             FlightplansItems.Clear();
 
@@ -104,6 +116,11 @@ namespace ELittoral.ViewModels
         public void OnSelectionChanged(object sender, SelectionChangedEventArgs args)
         {
 
+        }
+
+        private async void OnRefreshItemsClick(ItemClickEventArgs args)
+        {
+            await LoadDataAsync(_currentState);
         }
 
         private void OnItemClick(ItemClickEventArgs args)
@@ -143,6 +160,37 @@ namespace ELittoral.ViewModels
                 dialog.CancelCommandIndex = 1;
 
                 var result = await dialog.ShowAsync();
+
+                if ((int)result.Id == 0)
+                {
+                    try
+                    {
+                        if (await _modelService.DeleteFlightplanFromIdAsync(Selected))
+                        {
+                            FlightplansItems.Remove(Selected);
+                            Selected = (FlightplansItems.Count > 0) ? FlightplansItems[0] : null;
+                            OnPropertyChanged(nameof(IsViewState));
+                        }
+                        else
+                        {
+                            var unknowErrorDialog = new Windows.UI.Popups.MessageDialog(
+                                "Une erreur est survenue",
+                                "Erreur");
+                            unknowErrorDialog.Commands.Add(new Windows.UI.Popups.UICommand("Ok") { Id = 0 });
+                            await unknowErrorDialog.ShowAsync();
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        var errorDialog = new Windows.UI.Popups.MessageDialog(
+                            ex.Message,
+                            "Erreur");
+                        errorDialog.Commands.Add(new Windows.UI.Popups.UICommand("Ok") { Id = 0 });
+                        await errorDialog.ShowAsync();
+                    }
+                }
+                
             }
         }
 
@@ -150,6 +198,7 @@ namespace ELittoral.ViewModels
         {
             _currentState = args.NewState;
             OnPropertyChanged(nameof(IsViewState));
+            LoadingColumnSpan = (_currentState.Name == NarrowStateName) ? 1 : 2;
         }
     }
 }

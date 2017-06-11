@@ -36,6 +36,8 @@ namespace ELittoral.Controls
         public static DependencyProperty MasterMenuItemProperty = DependencyProperty.Register("MasterMenuItem", typeof(FlightplanModel), typeof(FlightplanDetailControl), new PropertyMetadata(null));
         public static DependencyProperty ThumbnailImageSideLengthProperty = DependencyProperty.Register("ThumbnailImageSideLength", typeof(int), typeof(FlightplanDetailControl), new PropertyMetadata(null));
 
+
+
         public FlightplanDetailControlModel ControlModel { get; private set; } 
 
         public FlightplanDetailControl()
@@ -58,6 +60,10 @@ namespace ELittoral.Controls
             if (dp == MasterMenuItemProperty)
             {
                 ControlModel.OnMasterItemChanged(MasterMenuItem);
+            }
+            else
+            {
+                ControlModel.Item = null;
             }
         }
 

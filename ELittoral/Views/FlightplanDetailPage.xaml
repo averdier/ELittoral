@@ -4,11 +4,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ELittoral.Views"
     xmlns:controls="using:ELittoral.Controls"
+    xmlns:valueConverters="using:ELittoral.ValueConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <valueConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Page.Resources>
 
     <Grid x:Name="ContentArea"
         Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
@@ -18,15 +23,29 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <controls:FlightplanDetailControl
+        <!--LoadingContentPresenter-->
+        <ContentPresenter
+            x:Name="LoadingContentPresenter"
+            Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <controls:LoadingControl x:Name="LoadingControl"
+                                     Message="{x:Bind ViewModel.LoadingMessage, Mode=OneWay}"
+                                     IsLoading="{x:Bind ViewModel.IsLoading, Mode=OneWay}"/>
+        </ContentPresenter>
+        <!--/.LoadingContentPresenter-->
+
+        <Grid Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=True}">
+            <controls:FlightplanDetailControl
             MasterMenuItem="{x:Bind ViewModel.Item}"/>
+        </Grid>
+        
 
         <!--CommandBar-->
         <CommandBar Grid.Row="1">
-            <AppBarButton x:Name="EditItemBtn"
-                          Label="Edit item"
-                          Icon="Edit" />
-            
+            <AppBarButton x:Name="RefrechItemBtn"
+                          Label="Refresh"
+                          Icon="Refresh" 
+                          Command="{x:Bind ViewModel.RefreshItemClickCommand}"/>
+
             <AppBarButton x:Name="DeleteItemBtn" 
                           Label="Delete Item" 
                           Icon="Delete"

@@ -46,6 +46,20 @@ namespace ELittoral.ViewModels
         private MapIcon _buildFromIcon;
         private MapPolyline _buildPath;
 
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { Set(ref _isLoading, value); }
+        }
+
+        private string _loadingMessage;
+        public string LoadingMessage
+        {
+            get { return _loadingMessage; }
+            set { Set(ref _loadingMessage, value); }
+        }
+
         public FlightplanBuildViewModel(MapControl map, MenuFlyout mapMenuFlyout)
         {
             AddClickCommand = new RelayCommand<RoutedEventArgs>(OnAddClick);
@@ -277,10 +291,28 @@ namespace ELittoral.ViewModels
             {
                 try
                 {
+                    IsLoading = true;
+                    LoadingMessage = "Génération du plan de vol";
+
                     var result = await _modelService.BuildFlightplan(BuildOptions);
+
+                    IsLoading = false;
+                    LoadingMessage = "";
+
                     if (result != null)
                     {
                         NavigationService.Navigate<Views.FlightplansPage>(result);
+                    }
+                    else
+                    {
+                        var dialog = new Windows.UI.Popups.MessageDialog(
+                            "Une erreur est survenue",
+                            "Erreur");
+                        dialog.Commands.Add(new Windows.UI.Popups.UICommand("Fermer") { Id = 0 });
+
+                        dialog.DefaultCommandIndex = 0;
+
+                        var resultUnknow = await dialog.ShowAsync();
                     }
 
                 }
@@ -293,7 +325,6 @@ namespace ELittoral.ViewModels
                     dialog.Commands.Add(new Windows.UI.Popups.UICommand("Fermer") { Id = 0 });
 
                     dialog.DefaultCommandIndex = 0;
-                    dialog.CancelCommandIndex = 1;
 
                     var result = await dialog.ShowAsync();
                 }

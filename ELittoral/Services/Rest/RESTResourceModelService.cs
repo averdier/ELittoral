@@ -16,7 +16,8 @@ namespace ELittoral.Services.Rest
                 Id = resource.id,
                 CreatedAt = resource.created_on,
                 Number = resource.number,
-                Thumbnail = new Uri("http://vps361908.ovh.net/dev/elittoral/api/resources/" + resource.id + "/thumbnail")
+                Thumbnail = new Uri("http://vps361908.ovh.net/dev/elittoral/api/resources/" + resource.id + "/thumbnail"),
+                Content = new Uri("http://vps361908.ovh.net/dev/elittoral/api/resources/" + resource.id + "/content")
             };
 
             return model;

@@ -1,5 +1,6 @@
 ﻿using ELittoral.Helpers;
 using ELittoral.Models;
+using ELittoral.Services;
 using ELittoral.Services.Rest;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,8 @@ namespace ELittoral.ControlModels
             set { Set(ref _loadingMessage, value); }
         }
 
+        public RelayCommand<ReconModel> ReconSelectedCommand { get; private set; }
+
         private RESTFlightplanModelService _modelService;
 
         private MapControl _map;
@@ -44,6 +47,7 @@ namespace ELittoral.ControlModels
 
         public FlightplanDetailControlModel(MapControl map)
         {
+            ReconSelectedCommand = new RelayCommand<ReconModel>(OnReconSelected);
             _modelService = new RESTFlightplanModelService("http://vps361908.ovh.net/dev/elittoral/api/");
             _map = map;
         }
@@ -106,6 +110,11 @@ namespace ELittoral.ControlModels
             LoadingMessage = "";
 
             SetMapSceneAsync();
+        }
+
+        private void OnReconSelected(ReconModel recon)
+        {
+            NavigationService.Navigate<Views.FlightplanReconPage>(recon);
         }
     }
 }

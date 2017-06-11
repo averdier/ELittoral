@@ -46,7 +46,9 @@
                     <Button Grid.Column="1"
                             RelativePanel.AlignRightWithPanel="True"
                             RelativePanel.AlignVerticalCenterWithPanel="True"
-                            Style="{ThemeResource TextBlockButtonStyle}">
+                            Style="{ThemeResource TextBlockButtonStyle}"
+                            Command="{Binding ControlModel.ReconSelectedCommand, ElementName=controlRoot}"
+                            CommandParameter="{Binding}">
                         <TextBlock x:Uid="CategoriesPage_ShowAllTextBlock"
                                    FontSize="16"
                                    Text="Afficher tout"

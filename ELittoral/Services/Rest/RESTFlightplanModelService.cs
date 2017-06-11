@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 
 namespace ELittoral.Services.Rest
 {
@@ -15,12 +16,15 @@ namespace ELittoral.Services.Rest
     {
         private string baseUri;
         private string namespaceUri = "flightplans/";
+
+        private HttpBaseProtocolFilter filter;
         private HttpClient httpClient;
         private CancellationTokenSource cts;
 
         public RESTFlightplanModelService(string uri)
         {
-            httpClient = new HttpClient();
+            filter = new HttpBaseProtocolFilter();
+            httpClient = new HttpClient(filter);
             cts = new CancellationTokenSource();
             baseUri = uri;
         }
@@ -67,8 +71,10 @@ namespace ELittoral.Services.Rest
             await Task.CompletedTask;
 
             Uri resourceUri = new Uri(baseUri + namespaceUri);
-            HttpResponseMessage response = await httpClient.GetAsync(resourceUri).AsTask(cts.Token);
+            filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.NoCache;
 
+            HttpResponseMessage response = await httpClient.GetAsync(resourceUri).AsTask(cts.Token);
+            
             var strResponse = await response.Content.ReadAsStringAsync();
             var container = JsonConvert.DeserializeObject<FlightPlanDataContainer>(strResponse);
 
@@ -89,12 +95,24 @@ namespace ELittoral.Services.Rest
         {
             await Task.CompletedTask;
             Uri resourceUri = new Uri(baseUri + namespaceUri + flightplanId);
+            filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.NoCache;
+
             HttpResponseMessage response = await httpClient.GetAsync(resourceUri).AsTask(cts.Token);
 
             var strResponse = await response.Content.ReadAsStringAsync();
             var flightplan = JsonConvert.DeserializeObject<FlightPlan>(strResponse);
 
             return FlightplanToFlightplanModel(flightplan);
+        }
+
+        public async Task<bool> DeleteFlightplanFromIdAsync(FlightplanModel flightplan)
+        {
+            await Task.CompletedTask;
+            Uri resourceUri = new Uri(baseUri + namespaceUri + flightplan.Id);
+
+            var response = await httpClient.DeleteAsync(resourceUri).AsTask(cts.Token);
+
+            return response.StatusCode == HttpStatusCode.NoContent;
         }
 
         public async Task<FlightplanModel> BuildFlightplan(BuildOptionsModel options)

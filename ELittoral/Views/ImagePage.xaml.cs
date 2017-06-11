@@ -2,11 +2,13 @@
 using ELittoral.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -35,6 +37,14 @@ namespace ELittoral.Views
         {
             base.OnNavigatedTo(e);
             ViewModel.Item = e.Parameter as ImageModel;
+            Debug.WriteLine(e.Parameter);
+            Debug.WriteLine(ViewModel.Item);
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ViewModel.PageWidth = e.NewSize.Width;
+            ViewModel.PageHeight = e.NewSize.Height;
         }
     }
 }

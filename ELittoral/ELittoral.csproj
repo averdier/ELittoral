@@ -180,6 +180,7 @@
     <Compile Include="ViewModels\ApiWebViewModel.cs" />
     <Compile Include="ViewModels\FlightplanBuildViewModel.cs" />
     <Compile Include="ViewModels\FlightplanDetailViewModel.cs" />
+    <Compile Include="ViewModels\FlightplanReconViewModel.cs" />
     <Compile Include="ViewModels\FlightplansViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\ImageViewModel.cs" />
@@ -210,6 +211,9 @@
     </Compile>
     <Compile Include="Views\FlightplanDetailPage.xaml.cs">
       <DependentUpon>FlightplanDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FlightplanReconPage.xaml.cs">
+      <DependentUpon>FlightplanReconPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FlightplansPage.xaml.cs">
       <DependentUpon>FlightplansPage.xaml</DependentUpon>
@@ -329,6 +333,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FlightplanDetailPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FlightplanReconPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -3,6 +3,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ELittoral.Views"
+    xmlns:valueConverters="using:ELittoral.ValueConverters"
+    xmlns:controls="using:ELittoral.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
@@ -10,6 +12,10 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     x:Name="pageRoot"
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <valueConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Page.Resources>
 
     <Grid x:Name="ContentArea"
           Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -26,6 +32,19 @@
             FontSize="28" FontWeight="SemiLight" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" VerticalAlignment="Center"
             Margin="0,0,12,7"/>
 
+        <!--LoadingContentPresenter-->
+        <ContentPresenter
+            x:Name="LoadingContentPresenter"
+            Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Grid.Row="1"
+            Grid.RowSpan="2">
+            <controls:LoadingControl x:Name="LoadingControl"
+                                     Message="{x:Bind ViewModel.LoadingMessage, Mode=OneWay}"
+                                     IsLoading="{x:Bind ViewModel.IsLoading, Mode=OneWay}"/>
+        </ContentPresenter>
+        <!--/.LoadingContentPresenter-->
+        
+        <!--Flightplan form-->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
@@ -186,6 +205,8 @@
             <!--/.ParametersLayout-->
 
         </Grid>
+        <!--/.Flightplan form-->
+
 
         <!--CommandBar-->
         <CommandBar Grid.Row="2">
