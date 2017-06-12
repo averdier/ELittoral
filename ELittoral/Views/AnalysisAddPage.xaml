@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ELittoral.Views"
     xmlns:model="using:ELittoral.Models"
+    xmlns:controls="using:ELittoral.Controls"
     xmlns:valueConverters="using:ELittoral.ValueConverters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,6 +14,9 @@
 
     <Page.Resources>
 
+        <valueConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <valueConverters:DateTimeConverter x:Key="DateTimeConverter" />
+        
         <!--ComboBoxFlightplanItemTemplate-->
         <DataTemplate x:Key="ComboBoxFlightplanItemTemplate"
                       x:DataType="model:FlightplanModel">
@@ -24,7 +28,7 @@
         <!--ComboBoxReconItemTemplate-->
         <DataTemplate x:Key="ComboBoxReconItemTemplate"
                       x:DataType="model:ReconModel">
-            <TextBlock Text="{x:Bind CreatedAt}"
+            <TextBlock Text="{x:Bind CreatedAt, Mode=OneWay, Converter={StaticResource DateTimeConverter}}"
                        Margin="5" />
         </DataTemplate>
         <!--/.ComboBoxReconItemTemplate-->
@@ -102,6 +106,19 @@
             
         </Grid>
 
+        <!--LoadingContentPresenter-->
+        <ContentPresenter
+            x:Name="LoadingContentPresenter"
+            Background="White"
+            Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Grid.Row="1"
+            Grid.RowSpan="2">
+            <controls:LoadingControl x:Name="LoadingControl"
+                                     Message="{x:Bind ViewModel.LoadingMessage, Mode=OneWay}"
+                                     IsLoading="{x:Bind ViewModel.IsLoading, Mode=OneWay}"/>
+        </ContentPresenter>
+        <!--/.LoadingContentPresenter-->
+        
         <!--CommandBar-->
         <CommandBar Grid.Row="2">
             <AppBarButton x:Name="LaunchBtn"

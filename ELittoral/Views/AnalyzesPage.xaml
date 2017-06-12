@@ -7,6 +7,7 @@
     xmlns:model="using:ELittoral.Models"
     xmlns:views="using:ELittoral.Views"
     xmlns:valueConverters="using:ELittoral.ValueConverters"
+    xmlns:controls="using:ELittoral.Controls"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     mc:Ignorable="d">
@@ -18,6 +19,7 @@
 
     <Page.Resources>
 
+        <valueConverters:DateTimeConverter x:Key="DateTimeConverter" />
         <valueConverters:StateToSolidColorBrush x:Key="StateToSolidColorBrush" />
         <valueConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
@@ -69,7 +71,7 @@
             FontSize="28" FontWeight="SemiLight" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" VerticalAlignment="Center"
             Margin="12,0,12,7" Visibility="Collapsed"/>
         <!--/.TitlePage-->
-
+        
         <!--MasterArea-->
         <Grid
             x:Name="MasterArea"
@@ -139,7 +141,21 @@
                           Command="{x:Bind ViewModel.DeleteItemClickCommand}"/>
         </CommandBar>
         <!--/.CommandBar-->
-        
+
+        <!--LoadingContentPresenter-->
+        <ContentPresenter
+            x:Name="LoadingContentPresenter"
+            Background="White"
+            Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="{x:Bind ViewModel.LoadingColumnSpan}">
+            <controls:LoadingControl x:Name="LoadingControl"
+                                     Message="{x:Bind ViewModel.LoadingMessage, Mode=OneWay}"
+                                     IsLoading="{x:Bind ViewModel.IsLoading, Mode=OneWay}"/>
+        </ContentPresenter>
+        <!--/.LoadingContentPresenter-->
+
         <!--  Adaptive triggers  -->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">

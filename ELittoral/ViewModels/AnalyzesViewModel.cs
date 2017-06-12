@@ -11,6 +11,7 @@ using ELittoral.Services;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Collections.Generic;
+using ELittoral.Services.Rest;
 
 namespace ELittoral.ViewModels
 {
@@ -18,6 +19,8 @@ namespace ELittoral.ViewModels
     {
         const string NarrowStateName = "NarrowState";
         const string WideStateName = "WideState";
+
+        private RESTAnalysisModelService _modelService;
 
         private VisualState _currentState;
 
@@ -41,6 +44,26 @@ namespace ELittoral.ViewModels
 
         public bool IsViewState { get { return Selected != null && _currentState.Name != NarrowStateName; } }
 
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { Set(ref _isLoading, value); }
+        }
+
+        private string _loadingMessage;
+        public string LoadingMessage
+        {
+            get { return _loadingMessage; }
+            set { Set(ref _loadingMessage, value); }
+        }
+
+        private int _loadingColumnSpan;
+        public int LoadingColumnSpan
+        {
+            get { return _loadingColumnSpan; }
+            set { Set(ref _loadingColumnSpan, value); }
+        }
 
 
         public AnalyzesViewModel()
@@ -49,21 +72,57 @@ namespace ELittoral.ViewModels
             AddItemClickCommand = new RelayCommand<RoutedEventArgs>(OnAddItemClick);
             DeleteItemClickCommand = new RelayCommand<RoutedEventArgs>(OnDeleteItemClick);
             StateChangedCommand = new RelayCommand<VisualStateChangedEventArgs>(OnStateChanged);
+            _modelService = new RESTAnalysisModelService("http://vps361908.ovh.net/dev/elittoral/api/");
         }
 
-        public async Task LoadDataAsync(VisualState currentState)
+
+        private async Task RefreshItemsAsync()
+        {
+            await Task.CompletedTask;
+
+            LoadingColumnSpan = (_currentState.Name == NarrowStateName) ? 1 : 2;
+            IsLoading = true;
+            LoadingMessage = "Chargement des analyses";
+
+            try
+            {
+                AnalysisItems.Clear();
+                var data = await _modelService.GetAnalysesAsync();
+
+                foreach (var item in data)
+                {
+                    AnalysisItems.Add(item);
+                }
+                if (AnalysisItems.Count > 0)
+                {
+                    Selected = AnalysisItems[0];
+                }
+
+                IsLoading = false;
+                LoadingMessage = "";
+            }
+            catch (Exception ex)
+            {
+                var dialog = new Windows.UI.Popups.MessageDialog(
+                    ex.Message,
+                    "Erreur"
+                    );
+                dialog.Commands.Add(new Windows.UI.Popups.UICommand("Fermer") { Id = 0 });
+
+                dialog.DefaultCommandIndex = 0;
+
+                var result = await dialog.ShowAsync();
+            }
+        }
+
+        public async void LoadData(VisualState currentState)
         {
             _currentState = currentState;
-            AnalysisItems.Clear();
-
-            var service = new AnalysisModelService();
-            var data = await service.GetDataAsync();
-
-            foreach (var item in data)
+            await RefreshItemsAsync();
+            if (AnalysisItems.Count > 0)
             {
-                AnalysisItems.Add(item);
+                Selected = AnalysisItems[0];
             }
-            Selected = AnalysisItems.First();
 
             OnPropertyChanged(nameof(IsViewState));
         }

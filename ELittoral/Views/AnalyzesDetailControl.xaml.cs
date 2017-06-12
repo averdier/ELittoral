@@ -1,3 +1,4 @@
+using ELittoral.ControlModels;
 using ELittoral.Helpers;
 using ELittoral.Models;
 using ELittoral.Services;
@@ -19,10 +20,25 @@ namespace ELittoral.Views
 
         public ICommand ItemClickCommand { get; private set; }
 
+        public AnalysisDetailControlModel ControlModel { get; } = new AnalysisDetailControlModel();
+
         public AnalyzesDetailControl()
         {
             InitializeComponent();
             ItemClickCommand = new RelayCommand<ItemClickEventArgs>(OnItemClick);
+            this.RegisterPropertyChangedCallback(MasterMenuItemProperty, OnMasterMenuItemPropertyChanged);
+        }
+
+        private void OnMasterMenuItemPropertyChanged(DependencyObject sender, DependencyProperty dp)
+        {
+            if (dp == MasterMenuItemProperty)
+            {
+                ControlModel.OnMasterItemChanged(MasterMenuItem);
+            }
+            else
+            {
+                ControlModel.Item = null;
+            }
         }
 
         private void OnItemClick(ItemClickEventArgs args)

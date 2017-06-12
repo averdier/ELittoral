@@ -1,6 +1,7 @@
 ﻿using ELittoral.Helpers;
 using ELittoral.Models;
 using ELittoral.Services;
+using ELittoral.Services.Rest;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -50,22 +51,24 @@ namespace ELittoral.ViewModels
 
         public ICommand ReconBSelectionChangedCommand { get; private set; }
 
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { Set(ref _isLoading, value); }
+        }
+
+        private string _loadingMessage;
+        public string LoadingMessage
+        {
+            get { return _loadingMessage; }
+            set { Set(ref _loadingMessage, value); }
+        }
 
         public bool LaunchBtn_IsEnabled { get { return _selectedFlightplan != null && _selectedReconA != null && _selectedReconB != null; } }
 
-
-        public async Task LoadDataAsync()
-        {
-            FlightPlanItems.Clear();
-
-            var service = new FlightplanModelService();
-            var data = await service.GetDataAsync();
-
-            foreach (var item in data)
-            {
-                FlightPlanItems.Add(item);
-            }
-        }
+        private RESTFlightplanModelService _flightplanModelService;
+        private RESTReconModelService _reconModelService;
 
         public AnalysisAddViewModel()
         {
@@ -74,6 +77,41 @@ namespace ELittoral.ViewModels
             FlightplanSelectionChangedCommand = new RelayCommand<SelectionChangedEventArgs>(OnFlightplanSelectionChanged);
             ReconASelectionChangedCommand = new RelayCommand<SelectionChangedEventArgs>(OnReconASelectionChanged);
             ReconBSelectionChangedCommand = new RelayCommand<SelectionChangedEventArgs>(OnReconBSelectionChanged);
+            _flightplanModelService = new RESTFlightplanModelService("http://vps361908.ovh.net/dev/elittoral/api/");
+            _reconModelService = new RESTReconModelService("http://vps361908.ovh.net/dev/elittoral/api/");
+        }
+
+        public async Task LoadDataAsync()
+        {
+            FlightPlanItems.Clear();
+
+            try
+            {
+                IsLoading = true;
+                LoadingMessage = "Chargement des plans de vol";
+
+                var data = await _flightplanModelService.GetFlightplansAsync();
+                if (data != null)
+                {
+                    LoadingMessage = "Chargement des reconnaissances";
+                    foreach (FlightplanModel fp in data)
+                    {
+                        var recons = await _reconModelService.GetReconsFromFlightplanIdAsync(fp.Id);
+                        if (recons != null)
+                        {
+                            fp.Recons = recons.ToList<ReconModel>();
+                        }
+                        FlightPlanItems.Add(fp);
+                    }
+                }
+
+                IsLoading = false;
+                LoadingMessage = "";
+            }
+            catch
+            {
+
+            }
         }
 
         private void OnLaunchClick(RoutedEventArgs args)

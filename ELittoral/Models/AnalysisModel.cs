@@ -8,6 +8,8 @@ namespace ELittoral.Models
 {
     public class AnalysisModel
     {
+        public int Id;
+
         public string CreatedAt { get; set; }
 
         public string State { get; set; }

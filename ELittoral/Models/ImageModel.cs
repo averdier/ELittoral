@@ -13,5 +13,7 @@ namespace ELittoral.Models
         public Uri Content { get; set; }
 
         public string CreatedAt { get; set; }
+
+        public string Filename { get; set; }
     }
 }

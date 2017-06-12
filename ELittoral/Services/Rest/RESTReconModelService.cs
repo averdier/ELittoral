@@ -49,6 +49,31 @@ namespace ELittoral.Services.Rest
             return model;
         }
 
+        public async Task<IEnumerable<ReconModel>> GetReconsFromFlightplanIdAsync(int flightplanId)
+        {
+            await Task.CompletedTask;
+
+            Uri resourceUri = new Uri(baseUri + namespaceUri + "?flightplan_id=" + flightplanId);
+            filter.CacheControl.ReadBehavior = HttpCacheReadBehavior.NoCache;
+
+            HttpResponseMessage response = await httpClient.GetAsync(resourceUri).AsTask(cts.Token);
+
+            var strResponse = await response.Content.ReadAsStringAsync();
+            var container = JsonConvert.DeserializeObject<ReconDataContainer>(strResponse);
+
+            var data = new List<ReconModel>();
+
+            if (container.recons != null)
+            {
+                foreach (Recon rc in container.recons)
+                {
+                    data.Add(ReconToReconModel(rc));
+                }
+            }
+
+            return data;
+        }
+
         public async Task<ReconModel> GetReconFromIdAsync(int reconId)
         {
             await Task.CompletedTask;

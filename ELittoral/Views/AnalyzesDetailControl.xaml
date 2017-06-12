@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:ELittoral.Models"
+    xmlns:controls="using:ELittoral.Controls"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:valueConverters="using:ELittoral.ValueConverters"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
@@ -77,6 +78,7 @@
         </DataTemplate>
         <!--NarrowGridViewItemTemplate-->
 
+        <valueConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <valueConverters:StateToSolidColorBrush x:Key="StateToSolidColorBrush" />
         <valueConverters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
     </UserControl.Resources>
@@ -117,27 +119,27 @@
                     <toolkit:HeaderedTextBlock 
                         x:Uid="AnalyzesDetailControl_CreatedAt"
                         Header="HeaderedTextBlock"
-                        Text="{x:Bind MasterMenuItem.CreatedAt, Mode=OneWay}"
+                        Text="{x:Bind ControlModel.Item.CreatedAt, Mode=OneWay}"
                         Orientation="Vertical" />
 
                     <toolkit:HeaderedTextBlock 
                         x:Uid="AnalyzesDetailControl_Status"
                         Header="HeaderedTextBlock"
-                        Text="{x:Bind MasterMenuItem.State, Mode=OneWay}"
+                        Text="{x:Bind ControlModel.Item.State, Mode=OneWay}"
                         Orientation="Vertical" 
                         Margin="20,0,0,0"/>
 
                     <toolkit:HeaderedTextBlock 
                         x:Uid="AnalyzesDetailControl_Progression"
                         Header="HeaderedTextBlock"
-                        Text="{x:Bind MasterMenuItem.Progression, Mode=OneWay}"
+                        Text="{x:Bind ControlModel.Item.Progression, Mode=OneWay}"
                         Orientation="Vertical" 
                         Margin="20,0,0,0"/>
 
                     <toolkit:HeaderedTextBlock 
                         x:Uid="AnalyzesDetailControl_Result"
                         Header="HeaderedTextBlock"
-                        Text="{x:Bind MasterMenuItem.Result, Mode=OneWay}"
+                        Text="{x:Bind ControlModel.Item.Result, Mode=OneWay}"
                         Orientation="Vertical" 
                         Margin="20,0,0,0"/>
 
@@ -149,8 +151,8 @@
                     x:Uid="AnalyzesDetailControl_Message"
                     Header="HeaderedTextBlock"
                     Grid.Row="1"
-                    Visibility="{x:Bind MasterMenuItem.Message, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
-                    Text="{x:Bind MasterMenuItem.Message, Mode=OneWay}"
+                    Visibility="{x:Bind ControlModel.Item.Message, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}"
+                    Text="{x:Bind ControlModel.Item.Message, Mode=OneWay}"
                     Orientation="Vertical"
                     Margin="12,0,12,0"/>
                 <!--/.Error mesage-->
@@ -171,7 +173,7 @@
                         x:Name="GridViewResults"
                         Grid.Row="1"
                         ItemTemplate="{StaticResource WideGridViewItemTemplate}"
-                        ItemsSource="{x:Bind MasterMenuItem.Results, Mode=OneWay}"
+                        ItemsSource="{x:Bind ControlModel.Item.Results, Mode=OneWay}"
                         IsItemClickEnabled="True">
                         <i:Interaction.Behaviors>
                             <ic:EventTriggerBehavior EventName="ItemClick">
@@ -184,7 +186,19 @@
             </Grid>
         </ScrollViewer>
         <!--/.Content-->
-        
+
+        <!--LoadingContentPresenter-->
+        <Grid
+            x:Name="LoadingContentPresenter"
+            Background="White"
+            Visibility="{x:Bind ControlModel.IsLoading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Grid.Row="1">
+            <controls:LoadingControl x:Name="LoadingControl"
+                                     Message="{x:Bind ControlModel.LoadingMessage, Mode=OneWay}"
+                                     IsLoading="{x:Bind ControlModel.IsLoading, Mode=OneWay}"/>
+        </Grid>
+        <!--/.LoadingContentPresenter-->
+
         <!--  Adaptive triggers  -->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">

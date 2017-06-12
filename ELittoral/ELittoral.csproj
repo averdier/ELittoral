@@ -124,6 +124,7 @@
     <Compile Include="Attributes\DoubleBetweenAttribute.cs" />
     <Compile Include="Attributes\DoubleUpperOrEqualThanPropertyAttribute.cs" />
     <Compile Include="Attributes\DoubleUpperZeroAttribute.cs" />
+    <Compile Include="ControlModels\AnalysisDetailControlModel.cs" />
     <Compile Include="ControlModels\FlightplanDetailControlModel.cs" />
     <Compile Include="Controls\ContentImageControl.xaml.cs">
       <DependentUpon>ContentImageControl.xaml</DependentUpon>
@@ -160,6 +161,7 @@
     <Compile Include="Services\AnalysisModelService.cs" />
     <Compile Include="Services\FlightplanModelService.cs" />
     <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\Rest\RESTAnalysisModelService.cs" />
     <Compile Include="Services\Rest\RESTFlightplanModelService.cs" />
     <Compile Include="Services\Rest\RESTModel.cs" />
     <Compile Include="Services\Rest\RESTReconModelService.cs" />

@@ -16,6 +16,14 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
+        <!--TitlePage-->
+        <TextBlock
+            x:Name="TitlePage"
+            Text="{x:Bind ViewModel.Item.Filename}"
+            FontSize="28" FontWeight="SemiLight" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" VerticalAlignment="Center"
+            Margin="0,0,12,7"/>
+        <!--/.TitePage-->
+        
         <ScrollViewer MinZoomFactor="1"
                       Grid.Row="1"
                       ZoomMode="Enabled"
@@ -33,5 +41,25 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"/>
         </ScrollViewer>
+
+        <!--  Adaptive triggers  -->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TitlePage.Margin" Value="48,0,12,7"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
     </Grid>
 </Page>
