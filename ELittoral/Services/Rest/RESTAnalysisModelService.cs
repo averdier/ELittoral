@@ -34,11 +34,14 @@ namespace ELittoral.Services.Rest
             var model = new AnalysisResultModel
             {
                 Id = result.id,
-                Result = result.result.ToString(),
                 Filename = (result.filename != null) ? result.filename.ToString() : null,
                 Content = new Uri("http://vps361908.ovh.net/dev/elittoral/api/results/" + result.id + "/content")
             };
 
+            if (result.result != null)
+            {
+                model.Result = result.result.ToString();
+            }
             
 
             if (result.minuend_resource != null)
@@ -62,10 +65,22 @@ namespace ELittoral.Services.Rest
                 CreatedAt = analysis.created_on,
                 State = analysis.state,
                 Message = (analysis.message != null) ? analysis.ToString() : null,
-                Current = analysis.current.ToString(),
-                Total = analysis.total.ToString(),
-                Result = analysis.result.ToString()
             };
+
+            if (analysis.total != null)
+            {
+                model.Total = analysis.total.ToString();
+            }
+
+            if (analysis.current != null)
+            {
+                model.Current = analysis.current.ToString();
+            }
+
+            if (analysis.result != null)
+            {
+                model.Result = analysis.result.ToString();
+            }
 
             if (analysis.results != null)
             {
@@ -117,6 +132,41 @@ namespace ELittoral.Services.Rest
             var analysis = JsonConvert.DeserializeObject<Analysis>(strResponse);
 
             return AnalysisToAnalysisModel(analysis);
+        }
+
+        public async Task<AnalysisModel> LaunchAnalysis(ReconModel minuend, ReconModel subtrahend)
+        {
+            await Task.CompletedTask;
+
+            Uri resourceUri = new Uri(baseUri + namespaceUri);
+
+            var post_options = new
+            {
+                minuend_recon_id = minuend.Id,
+                subtrahend_recon_id = subtrahend.Id
+            };
+
+
+            string jsonObject = "";
+            jsonObject = JsonConvert.SerializeObject(post_options);
+
+            var httpC = new System.Net.Http.HttpClient();
+            var response = await httpC.PostAsync(resourceUri, new System.Net.Http.StringContent(jsonObject, System.Text.Encoding.UTF8, "application/json"));
+
+            var strResponse = await response.Content.ReadAsStringAsync();
+            var analysis = JsonConvert.DeserializeObject<Analysis>(strResponse);
+
+            return AnalysisToAnalysisModel(analysis);
+        }
+
+        public async Task<bool> DeleteAnalysisFromIdAsync(int analysisId)
+        {
+            await Task.CompletedTask;
+            Uri resourceUri = new Uri(baseUri + namespaceUri + analysisId);
+
+            var response = await httpClient.DeleteAsync(resourceUri).AsTask(cts.Token);
+
+            return response.StatusCode == HttpStatusCode.NoContent;
         }
 
         public void CancelTask()

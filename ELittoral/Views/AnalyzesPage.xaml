@@ -129,6 +129,10 @@
 
         <!--CommandBar-->
         <CommandBar Grid.Row="2" Grid.ColumnSpan="2">
+            <AppBarButton x:Name="RefreshBtn"
+                          Label="Refresh"
+                          Icon="Refresh" 
+                          Command="{x:Bind ViewModel.RefreshClickCommand}"/>
             <AppBarButton x:Name="AddItemBtn" 
                           Label="Add Item" 
                           Icon="Add" 

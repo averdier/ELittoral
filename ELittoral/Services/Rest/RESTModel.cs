@@ -54,11 +54,11 @@ namespace ELittoral.Services.Rest
     {
         public int id { get; set; }
         public string created_on { get; set; }
-        public int total { get; set; }
-        public int current { get; set; }
+        public object total { get; set; }
+        public object current { get; set; }
         public string state { get; set; }
         public object message { get; set; }
-        public double result { get; set; }
+        public object result { get; set; }
         public Recon minuend_recon { get; set; }
         public Recon subtrahend_recon { get; set; }
         public List<AnalysisResult> results { get; set; }
@@ -69,7 +69,7 @@ namespace ELittoral.Services.Rest
         public int id;
         public string created_on;
         public object filename;
-        public double result;
+        public object result;
         public Resource subtrahend_resource;
         public Resource minuend_resource;
     }

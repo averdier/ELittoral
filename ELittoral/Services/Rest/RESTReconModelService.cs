@@ -97,5 +97,29 @@ namespace ELittoral.Services.Rest
 
             return response.StatusCode == HttpStatusCode.NoContent;
         }
+
+        public async Task<ReconModel> PostRecon(int flightplanId)
+        {
+            await Task.CompletedTask;
+
+            Uri resourceUri = new Uri(baseUri + namespaceUri);
+
+            var post_options = new
+            {
+                flightplan_id = flightplanId
+            };
+
+
+            string jsonObject = "";
+            jsonObject = JsonConvert.SerializeObject(post_options);
+
+            var httpC = new System.Net.Http.HttpClient();
+            var response = await httpC.PostAsync(resourceUri, new System.Net.Http.StringContent(jsonObject, System.Text.Encoding.UTF8, "application/json"));
+
+            var strResponse = await response.Content.ReadAsStringAsync();
+            var recon = JsonConvert.DeserializeObject<Recon>(strResponse);
+
+            return ReconToReconModel(recon);
+        }
     }
 }

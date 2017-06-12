@@ -81,6 +81,7 @@
         <valueConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <valueConverters:StateToSolidColorBrush x:Key="StateToSolidColorBrush" />
         <valueConverters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <valueConverters:DateTimeConverter x:Key="DateTimeConverter" />
     </UserControl.Resources>
     
     <Grid>
@@ -92,7 +93,7 @@
         <!--TitlePage-->
         <TextBlock
             x:Name="TitlePage"
-            Text="{x:Bind MasterMenuItem.CreatedAt, Mode=OneWay}"
+            Text="{x:Bind MasterMenuItem.CreatedAt, Mode=OneWay, Converter={StaticResource DateTimeConverter}}"
             FontSize="28" FontWeight="SemiLight" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" VerticalAlignment="Center"
             Margin="0,0,12,7"/>
         <!--/.TitlePage-->

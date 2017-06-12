@@ -174,6 +174,7 @@ namespace ELittoral.Services.Rest
 
             return FlightplanToFlightplanModel(flightplan);
         }
+
         public void CancelTask()
         {
             cts.Cancel();

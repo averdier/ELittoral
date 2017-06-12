@@ -69,6 +69,7 @@ namespace ELittoral.ViewModels
 
         private RESTFlightplanModelService _flightplanModelService;
         private RESTReconModelService _reconModelService;
+        private RESTAnalysisModelService _analysisModelService;
 
         public AnalysisAddViewModel()
         {
@@ -79,6 +80,7 @@ namespace ELittoral.ViewModels
             ReconBSelectionChangedCommand = new RelayCommand<SelectionChangedEventArgs>(OnReconBSelectionChanged);
             _flightplanModelService = new RESTFlightplanModelService("http://vps361908.ovh.net/dev/elittoral/api/");
             _reconModelService = new RESTReconModelService("http://vps361908.ovh.net/dev/elittoral/api/");
+            _analysisModelService = new RESTAnalysisModelService("http://vps361908.ovh.net/dev/elittoral/api/");
         }
 
         public async Task LoadDataAsync()
@@ -114,12 +116,53 @@ namespace ELittoral.ViewModels
             }
         }
 
-        private void OnLaunchClick(RoutedEventArgs args)
+        private async void OnLaunchClick(RoutedEventArgs args)
         {
-            // Do analysis
+            if (SelectedReconA != null && SelectedReconB != null)
+            {
+                try
+                {
+                    IsLoading = true;
+                    LoadingMessage = "Lancement de l'analyse";
 
-            var createdAnalysis = new Object();
-            NavigationService.Navigate<Views.AnalyzesPage>(createdAnalysis);
+                    var analysis = await _analysisModelService.LaunchAnalysis(SelectedReconA, SelectedReconB);
+
+                    if (analysis != null)
+                    {
+                        NavigationService.Navigate<Views.AnalyzesPage>(analysis);
+                    }
+                    else
+                    {
+                        IsLoading = false;
+                        LoadingMessage = "";
+
+                        var unknowErrordialog = new Windows.UI.Popups.MessageDialog(
+                            "Une erreur est survenue",
+                            "Erreur");
+                        unknowErrordialog.Commands.Add(new Windows.UI.Popups.UICommand("Fermer") { Id = 0 });
+
+                        unknowErrordialog.DefaultCommandIndex = 0;
+
+                        var resultUnknow = await unknowErrordialog.ShowAsync();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    IsLoading = false;
+                    LoadingMessage = "";
+
+                    var dialog = new Windows.UI.Popups.MessageDialog(
+                    ex.Message,
+                    "Erreur"
+                    );
+                    dialog.Commands.Add(new Windows.UI.Popups.UICommand("Fermer") { Id = 0 });
+
+                    dialog.DefaultCommandIndex = 0;
+
+                    var result = await dialog.ShowAsync();
+                }
+            }
+          
         }
 
         private void OnReconASelectionChanged(SelectionChangedEventArgs args)
