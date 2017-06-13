@@ -9,6 +9,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Diagnostics;
 using ELittoral.Services.Rest;
+using Microsoft.Toolkit.Uwp.UI;
+using Windows.UI.Xaml.Media;
 
 namespace ELittoral.ViewModels
 {

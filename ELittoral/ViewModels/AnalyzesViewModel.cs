@@ -12,6 +12,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System.Collections.Generic;
 using ELittoral.Services.Rest;
+using Microsoft.Toolkit.Uwp.UI;
 
 namespace ELittoral.ViewModels
 {
@@ -202,6 +203,7 @@ namespace ELittoral.ViewModels
                     {
                         if (await _modelService.DeleteAnalysisFromIdAsync(Selected.Id))
                         {
+                            await ImageCache.Instance.ClearAsync();
                             AnalysisItems.Remove(Selected);
                             if (AnalysisItems.Count > 0)
                             {
