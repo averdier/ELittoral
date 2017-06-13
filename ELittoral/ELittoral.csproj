@@ -138,6 +138,9 @@
     <Compile Include="Controls\ThumbnailImageControl.xaml.cs">
       <DependentUpon>ThumbnailImageControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\UploadingControl.xaml.cs">
+      <DependentUpon>UploadingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\BoolExtensions.cs" />
     <Compile Include="Helpers\Geographical.cs" />
     <Compile Include="Helpers\Json.cs" />
@@ -298,6 +301,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ThumbnailImageControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\UploadingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

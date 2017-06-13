@@ -67,12 +67,12 @@
             <TextBlock x:Name="SelectedFolderTextBlock"
                        Grid.Row="2"
                        Margin="10"
-                       Text="{x:Bind ViewModel.SelectedFolderText}"/>
+                       Text="{x:Bind ViewModel.SelectedFolderText, Mode=OneWay}"/>
 
             <TextBlock x:Name="InformationsTextBlock"
                        Grid.Row="3"
                        Margin="10"
-                       Text="{x:Bind ViewModel.InformationsText}"/>
+                       Text="{x:Bind ViewModel.InformationsText, Mode=OneWay}"/>
         </Grid>
 
         <!--LoadingContentPresenter-->
@@ -85,6 +85,20 @@
             <controls:LoadingControl x:Name="LoadingControl"
                                      Message="{x:Bind ViewModel.LoadingMessage, Mode=OneWay}"
                                      IsLoading="{x:Bind ViewModel.IsLoading, Mode=OneWay}"/>
+        </ContentPresenter>
+        <!--/.LoadingContentPresenter-->
+
+        <!--LoadingContentPresenter-->
+        <ContentPresenter
+            x:Name="UploadingContentPresenter"
+            Background="White"
+            Visibility="{x:Bind ViewModel.IsUploading, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+            Grid.Row="1"
+            Grid.RowSpan="2">
+            <controls:UploadingControl x:Name="UploadingControl"
+                                       Message="{x:Bind ViewModel.UploadingMessage, Mode=OneWay}"
+                                       ProgressValue="{x:Bind ViewModel.CurrentPictureUploaded, Mode=OneWay}"
+                                       ProgressMaximum="{x:Bind ViewModel.TotalPictureToUpload, Mode=OneWay}"/>
         </ContentPresenter>
         <!--/.LoadingContentPresenter-->
 

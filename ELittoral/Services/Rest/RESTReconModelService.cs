@@ -34,7 +34,7 @@ namespace ELittoral.Services.Rest
             {
                 Id = recon.id,
                 CreatedAt = recon.created_on,
-                ResourceCount = recon.resources_count
+                ResourceCount = recon.resources_count,
             };
 
             if (recon.resources != null)

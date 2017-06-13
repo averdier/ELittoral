@@ -92,6 +92,11 @@ namespace ELittoral.Services.Rest
         public List<FlightPlan> flightplans { get; set; }
     }
 
+    public class WaypointDataContainer
+    {
+        public List<Waypoint> waypoints { get; set; }
+    }
+
     public class AnalysisDataContainer
     {
         public List<Analysis> analysis { get; set; }
