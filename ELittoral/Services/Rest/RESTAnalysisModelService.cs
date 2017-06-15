@@ -82,6 +82,25 @@ namespace ELittoral.Services.Rest
                 model.Result = analysis.result.ToString();
             }
 
+            if (analysis.minuend_recon != null)
+            {
+                model.MinuendRecon = new ReconModel
+                {
+                    CreatedAt = analysis.minuend_recon.created_on,
+                    FlightplanId = analysis.minuend_recon.flightplan_id
+                };
+                
+            }
+
+            if (analysis.subtrahend_recon != null)
+            {
+                model.SubtrahendRecon = new ReconModel
+                {
+                    CreatedAt = analysis.subtrahend_recon.created_on,
+                    FlightplanId = analysis.subtrahend_recon.flightplan_id
+                };
+            }
+
             if (analysis.results != null)
             {
                 model.Results = new List<AnalysisResultModel>();

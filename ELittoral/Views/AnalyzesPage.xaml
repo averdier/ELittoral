@@ -33,7 +33,7 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock 
-                    Text="{x:Bind CreatedAt}" 
+                    Text="{x:Bind CreatedAt, Mode=OneWay, Converter={StaticResource DateTimeConverter}}" 
                     FontSize="16" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/>
 
                 <TextBlock

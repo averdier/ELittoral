@@ -24,6 +24,10 @@ namespace ELittoral.Models
 
         public string Result { get; set; }
 
+        public ReconModel MinuendRecon { get; set; }
+
+        public ReconModel SubtrahendRecon { get; set; }
+
         public IList<AnalysisResultModel> Results { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Devices.Geolocation;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 
@@ -27,6 +28,32 @@ namespace ELittoral.Services.Rest
             httpClient = new HttpClient(filter);
             cts = new CancellationTokenSource();
             baseUri = uri;
+        }
+
+        public static BuilderOptionsModel BuilderOptionsToBuilderOptionsModel(BuilderOptions options)
+        {
+            BuilderOptionsModel model = new BuilderOptionsModel
+            {
+                Gimbal = RESTWaypointModelService.GimbalToGimbalModel(options.d_gimbal),
+                Rotation = options.d_rotation,
+                StartAltitude = options.alt_start,
+                EndAltitude = options.alt_end,
+                BuildFrom = new Geopoint(new BasicGeoposition
+                {
+                    Latitude = options.coord1.lat,
+                    Longitude = options.coord1.lon,
+                    Altitude = options.coord1.alt
+                }),
+                BuildTo = new Geopoint(new BasicGeoposition
+                {
+                    Latitude = options.coord2.lat,
+                    Longitude = options.coord2.lon,
+                    Altitude = options.coord2.alt
+                })
+
+            };
+
+            return model;
         }
 
         public static FlightplanModel FlightplanToFlightplanModel(FlightPlan flightplan)
@@ -54,6 +81,11 @@ namespace ELittoral.Services.Rest
                 }
             }
 
+            if (flightplan.builder_options != null)
+            {
+                model.Options = BuilderOptionsToBuilderOptionsModel(flightplan.builder_options);
+            }
+
             if (flightplan.recons != null)
             {
                 model.Recons = new List<ReconModel>();
@@ -62,6 +94,8 @@ namespace ELittoral.Services.Rest
                     model.Recons.Add(RESTReconModelService.ReconToReconModel(rec));
                 }
             }
+
+            
 
             return model;
         }

@@ -64,6 +64,19 @@ namespace ELittoral.Services.Rest
         public List<AnalysisResult> results { get; set; }
     }
 
+    public class BuilderOptions
+    {
+        public GPSCoord coord1 { get; set; }
+        public GPSCoord coord2 { get; set; }
+        public double alt_start { get; set; }
+        public double alt_end { get; set; }
+        public double h_increment { get; set; }
+        public double v_increment { get; set; }
+        public double d_rotation { get; set; }
+        public Gimbal d_gimbal { get; set; }
+        public bool save { get; set; }
+    }
+
     public class AnalysisResult
     {
         public int id;
@@ -80,9 +93,11 @@ namespace ELittoral.Services.Rest
         public string created_on { get; set; }
         public object updated_on { get; set; }
         public string name { get; set; }
+        public bool builded { get; set; }
         public double distance { get; set; }
         public int waypoints_count { get; set; }
         public int recons_count { get; set; }
+        public BuilderOptions builder_options { get; set; }
         public List<Waypoint> waypoints { get; set; }
         public List<Recon> recons { get; set; }
     }

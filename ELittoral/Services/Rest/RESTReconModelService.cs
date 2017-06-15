@@ -33,6 +33,7 @@ namespace ELittoral.Services.Rest
             var model = new ReconModel
             {
                 Id = recon.id,
+                FlightplanId = recon.flightplan_id,
                 CreatedAt = recon.created_on,
                 ResourceCount = recon.resources_count,
             };

@@ -16,6 +16,11 @@
 
     <UserControl.Resources>
 
+        <valueConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <valueConverters:StateToSolidColorBrush x:Key="StateToSolidColorBrush" />
+        <valueConverters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <valueConverters:DateTimeConverter x:Key="DateTimeConverter" />
+        
         <!--WideGridViewItemTemplate-->
         <DataTemplate x:Key="WideGridViewItemTemplate" x:DataType="model:AnalysisResultModel">
 
@@ -78,10 +83,7 @@
         </DataTemplate>
         <!--NarrowGridViewItemTemplate-->
 
-        <valueConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <valueConverters:StateToSolidColorBrush x:Key="StateToSolidColorBrush" />
-        <valueConverters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-        <valueConverters:DateTimeConverter x:Key="DateTimeConverter" />
+        
     </UserControl.Resources>
     
     <Grid>
@@ -110,6 +112,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
@@ -120,7 +123,7 @@
                     <toolkit:HeaderedTextBlock 
                         x:Uid="AnalyzesDetailControl_CreatedAt"
                         Header="HeaderedTextBlock"
-                        Text="{x:Bind ControlModel.Item.CreatedAt, Mode=OneWay}"
+                        Text="{x:Bind ControlModel.Item.CreatedAt, Mode=OneWay, Converter={StaticResource DateTimeConverter}}"
                         Orientation="Vertical" />
 
                     <toolkit:HeaderedTextBlock 
@@ -146,6 +149,29 @@
 
                 </StackPanel>
                 <!--/.Informations-->
+
+                <StackPanel Orientation="Horizontal"
+                            Margin="12,12,12,0"
+                            Grid.Row="1">
+
+                    <toolkit:HeaderedTextBlock 
+                        Header="Plan de vol"
+                        Text="{x:Bind ControlModel.ItemFlightplan.Name, Mode=OneWay}"
+                        Orientation="Vertical" />
+                    
+                    <toolkit:HeaderedTextBlock 
+                        Header="Reconnaissance A"
+                        Text="{x:Bind ControlModel.MinuendRecon.CreatedAt, Mode=OneWay, Converter={StaticResource DateTimeConverter}}"
+                        Orientation="Vertical" 
+                        Margin="20,0,0,0"/>
+
+                    <toolkit:HeaderedTextBlock 
+                        Header="Reconnaissance B"
+                        Text="{x:Bind ControlModel.SubtrahendRecon.CreatedAt, Mode=OneWay, Converter={StaticResource DateTimeConverter}}"
+                        Orientation="Vertical" 
+                        Margin="20,0,0,0"/>
+
+                </StackPanel>
 
                 <!--Error message-->
                 <toolkit:HeaderedTextBlock 

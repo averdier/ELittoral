@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Main_Title.Text" xml:space="preserve">
+    <value>Main</value>
+  </data>
+  <data name="Home_Title.Text" xml:space="preserve">
+    <value>Acceuil</value>
+  </data>
+  <data name="Flightplans_Title.Text" xml:space="preserve">
+    <value>Gestion des plans de vol</value>
+  </data>
+  <data name="AnalyzesPage_Title.Text" xml:space="preserve">
+    <value>Analyses</value>
+  </data>
+  <data name="Uploader_Title.Text" xml:space="preserve">
+    <value>Uploader</value>
+  </data>
+  <data name="Settings_Title.Text" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="Settings_Theme.Text" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="Settings_ThemeToggle.OnContent" xml:space="preserve">
+    <value>Foncé</value>
+  </data>
+  <data name="Settings_ThemeToggle.OffContent" xml:space="preserve">
+    <value>Clair</value>
+  </data>
+  <data name="Settings_About.Text" xml:space="preserve">
+    <value>A propos</value>
+  </data>
+  <data name="Settings_AboutDescription.Text" xml:space="preserve">
+    <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur finibus vestibulum ipsum, at volutpat dolor venenatis vel. Curabitur sodales non felis feugiat commodo. Aliquam a posuere risus. Proin tortor est, lacinia eget nisi non, aliquam placerat nulla. Etiam porttitor egestas tempus. Integer aliquam suscipit leo quis commodo. Fusce blandit neque et nunc porta finibus.</value>
+  </data>
+  <data name="Settings_PrivacyTermsLink.Content" xml:space="preserve">
+    <value>Github</value>
+  </data>
+  <data name="Settings_PrivacyTermsLink.NavigateUri" xml:space="preserve">
+    <value>https://github.com/averdier</value>
+  </data>
+  <data name="Shell_Main" xml:space="preserve">
+    <value>Main</value>
+  </data>
+  <data name="Shell_Home" xml:space="preserve">
+    <value>Acceuil</value>
+  </data>
+  <data name="Shell_Flightplans" xml:space="preserve">
+    <value>Plans de vol</value>
+  </data>
+  <data name="Shell_Analyzes" xml:space="preserve">
+    <value>Analyzes</value>
+  </data>
+  <data name="Shell_Uploader" xml:space="preserve">
+    <value>Uploader</value>
+  </data>
+  <data name="Shell_Settings" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="AnalyzesDetailControl_CreatedAt.Header" xml:space="preserve">
+    <value>Crée le : </value>
+  </data>
+  <data name="AnalyzesDetailControl_Message.Header" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="AnalyzesDetailControl_Progression.Header" xml:space="preserve">
+    <value>Progression</value>
+  </data>
+  <data name="AnalyzesDetailControl_Result.Header" xml:space="preserve">
+    <value>Résultat</value>
+  </data>
+  <data name="AnalyzesDetailControl_Results.Text" xml:space="preserve">
+    <value>Résultats :</value>
+  </data>
+  <data name="AnalyzesDetailControl_Status.Header" xml:space="preserve">
+    <value>Statut</value>
+  </data>
+  <data name="Shell_Api" xml:space="preserve">
+    <value>Api</value>
+  </data>
+  <data name="AnalysisAddPage_Title.Text" xml:space="preserve">
+    <value>Ajouter une analyse</value>
+  </data>
+  <data name="AnalysisAddPage_FlightplanChoice.Header" xml:space="preserve">
+    <value>Choisir un plan de vol</value>
+  </data>
+  <data name="AnalysisAddPage_ReconAChoice.Header" xml:space="preserve">
+    <value>Choisir la reconnaissance</value>
+  </data>
+  <data name="AnalysisAddPage_ReconBChoice.Header" xml:space="preserve">
+    <value>Choisir la reconnaissance à soustraire</value>
+  </data>
+  <data name="AnalysisResultPage_Result.Header" xml:space="preserve">
+    <value>Résultat :</value>
+  </data>
+  <data name="FlightplansPage_Title.Text" xml:space="preserve">
+    <value>Plans de vol</value>
+  </data>
+  <data name="FlightplanDetailControl_CreatedAt.Header" xml:space="preserve">
+    <value>Crée le :</value>
+  </data>
+  <data name="FlightplanDetailControl_UpdatedAt.Header" xml:space="preserve">
+    <value>Mis à jour le :</value>
+  </data>
+  <data name="FlightplanDetailControl_Distance.Header" xml:space="preserve">
+    <value>Distance (m)</value>
+  </data>
+  <data name="FlightplanBuildPage_Title.Text" xml:space="preserve">
+    <value>Générer un plan de vol</value>
+  </data>
+</root>

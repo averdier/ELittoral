@@ -9,6 +9,7 @@ namespace ELittoral.Models
     public class ReconResourceModel : ImageModel
     {
         public int Id { get; set; }
+        public int ReconId { get; set; }
         public int Number { get; set; }
         public DroneParametersModel Parameters { get; set; }
     }

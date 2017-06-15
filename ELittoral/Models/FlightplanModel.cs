@@ -22,6 +22,8 @@ namespace ELittoral.Models
 
         public int ReconCount { get; set; }
 
+        public BuilderOptionsModel Options { get; set; }
+
         public IList<WaypointModel> Waypoints { get; set; }
 
         public IList<ReconModel> Recons { get; set; }

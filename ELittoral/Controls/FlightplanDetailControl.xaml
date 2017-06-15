@@ -15,6 +15,7 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
+        <valueConverters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         <valueConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <valueConverters:DateTimeConverter x:Key="DateTimeConverter" />
 
@@ -142,6 +143,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <StackPanel Orientation="Horizontal">
@@ -166,20 +168,107 @@
                             Orientation="Vertical"
                             Margin="20,0,0,0"/>
 
+                        <toolkit:HeaderedTextBlock 
+                            Header="Points de passage :"
+                            Text="{x:Bind ControlModel.Item.WaypointCount, Mode=OneWay}"
+                            Orientation="Vertical"
+                            Margin="20,0,0,0"/>
+
                     </StackPanel>
 
-                    <ListView Grid.Row="1"
+                    <Grid Grid.Row="1" 
+                          Margin="0,20,0,0"
+                          Visibility="{x:Bind ControlModel.Item.Options, Mode=OneWay, Converter={StaticResource NullToVisibilityConverter}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Paramètres de génération :" Style="{StaticResource SubtitleTextBlockStyle}" />
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,10,0,0">
+
+                            <toolkit:HeaderedTextBlock 
+                                Header="Altitude de départ (m)"
+                                Text="{x:Bind ControlModel.Item.Options.StartAltitude, Mode=OneWay}"
+                                Orientation="Vertical" />
+
+                            <toolkit:HeaderedTextBlock 
+                                Header="Altitude final (m)"
+                                Text="{x:Bind ControlModel.Item.Options.EndAltitude, Mode=OneWay}"
+                                Orientation="Vertical"
+                                Margin="20,0,0,0"/>
+
+                            <toolkit:HeaderedTextBlock 
+                                Header="Rotation (°)"
+                                Text="{x:Bind ControlModel.Item.Options.Rotation, Mode=OneWay}"
+                                Orientation="Vertical"
+                                Margin="20,0,0,0"/>
+
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0,10,0,0">
+
+                            <toolkit:HeaderedTextBlock 
+                                Header="Incrément vertical (m)"
+                                Text="{x:Bind ControlModel.Item.Options.VerticalIncrement, Mode=OneWay}"
+                                Orientation="Vertical" />
+
+                            <toolkit:HeaderedTextBlock 
+                                Header="Incrément horizontal (m)"
+                                Text="{x:Bind ControlModel.Item.Options.HorizontalIncrement, Mode=OneWay}"
+                                Orientation="Vertical"
+                                Margin="20,0,0,0"/>
+
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0,10,0,0">
+
+                            <toolkit:HeaderedTextBlock 
+                                Header="Yaw (°)"
+                                Text="{x:Bind ControlModel.Item.Options.Gimbal.Yaw, Mode=OneWay}"
+                                Orientation="Vertical" />
+
+                            <toolkit:HeaderedTextBlock 
+                                Header="Pitch (°)"
+                                Text="{x:Bind ControlModel.Item.Options.Gimbal.Pitch, Mode=OneWay}"
+                                Orientation="Vertical"
+                                Margin="20,0,0,0"/>
+
+                            <toolkit:HeaderedTextBlock 
+                                Header="Roll (°)"
+                                Text="{x:Bind ControlModel.Item.Options.Gimbal.Roll, Mode=OneWay}"
+                                Orientation="Vertical"
+                                Margin="20,0,0,0"/>
+
+                        </StackPanel>
+                    </Grid>
+
+
+                    <Grid Grid.Row="2" Margin="0,20,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Reconnaissances :" Style="{StaticResource SubtitleTextBlockStyle}" />
+                        
+                        <ListView Grid.Row="1"
                               Margin="-12,10,0,0"
                               ItemTemplate="{StaticResource ReconListItemTemplate}"
                               SelectionMode="None"
                               ItemsSource="{x:Bind ControlModel.Item.Recons, Mode=OneWay}"
                               Background="Transparent">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                    </Grid>
+                    
                 </Grid>
 
             </Grid>

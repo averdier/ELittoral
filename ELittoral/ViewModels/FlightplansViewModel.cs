@@ -103,13 +103,14 @@ namespace ELittoral.ViewModels
                 IsLoading = false;
                 OnPropertyChanged(nameof(IsViewState));
             }
-            catch (TaskCanceledException)
-            {
-                Debug.WriteLine("Task canceled");
-            }
+            
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                var errorDialog = new Windows.UI.Popups.MessageDialog(
+                            ex.Message,
+                            "Erreur");
+                errorDialog.Commands.Add(new Windows.UI.Popups.UICommand("Fermer") { Id = 0 });
+                await errorDialog.ShowAsync();
             }
         }
 
